@@ -1,27 +1,33 @@
+<?php
+
+use Krystal\Form\Element;
+
+?>
+
 <form>
 	<div class="well clearfix">
-		
-		<input type="hidden" name="banner[id]" value="<?php echo $banner->getId(); ?>" />
-		<input type="hidden" name="banner[file]" value="<?php echo $banner->getFile(); ?>" >
-		
+
+        <?php echo Element::hidden('banner[id]', $banner->getId()); ?>
+        <?php echo Element::hidden('banner[file]', $banner->getFile()); ?>
+        
 		<div class="form-group clearfix">
 			<label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
 			<div class="col-lg-10">
-				<input type="text" name="banner[name]" class="form-control" placeholder="<?php $this->show('Banner name'); ?>" value="<?php echo $banner->getName(); ?>"/>
+                <?php echo Element::text('banner[name]', $banner->getName(), array('class' => 'form-control', 'placeholder' => $this->translate('Banner name'))); ?>
 			</div>
 		</div>
 		
 		<div class="form-group clearfix">
 			<label class="col-lg-2 control-label"><?php $this->show('URL Link'); ?></label>
 			<div class="col-lg-10">
-				<input type="text" name="banner[link]" class="form-control" placeholder="<?php $this->show('URL link when clicked'); ?>" value="<?php echo $banner->getLink(); ?>" />
+                <?php echo Element::text('banner[link]', $banner->getLink(), array('class' => 'form-control', 'placeholder' => $this->translate('URL link when clicked'))); ?>
 			</div>
 		</div>
 		
 		<div class="form-group clearfix">
 			<label class="col-lg-2 control-label"><?php $this->show('File'); ?></label>
 			<div class="col-lg-10">
-				<input type="file" name="banner" />
+                <?php echo Element::file('file'); ?>
 			</div>
 		</div>
 	</div>
@@ -31,8 +37,8 @@
 
 	<?php else: ?>
 	<button data-button="add" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add'); ?></button>
-
-	<?php endif; ?>
+	
+    <?php endif; ?>
 
 	<button data-button="cancel" class="btn btn-default"><i class="glyphicon glyphicon-floppy-remove"></i> <?php $this->show('Cancel'); ?></button>
 
