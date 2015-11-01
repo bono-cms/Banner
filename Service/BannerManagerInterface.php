@@ -14,73 +14,73 @@ namespace Banner\Service;
 /* API for Banner Manager */
 interface BannerManagerInterface
 {
-	/**
-	 * Returns prepared paginator's instance
-	 * 
-	 * @return \Krystal\Paginate\Paginator
-	 */
-	public function getPaginator();
+    /**
+     * Returns prepared paginator's instance
+     * 
+     * @return \Krystal\Paginate\Paginator
+     */
+    public function getPaginator();
 
-	/**
-	 * Returns last banner's id
-	 * 
-	 * @return integer
-	 */
-	public function getLastId();
+    /**
+     * Returns last banner's id
+     * 
+     * @return integer
+     */
+    public function getLastId();
 
-	/**
-	 * Fetches all banner entities filtered by pagination
-	 * 
-	 * @param string $page Current page
-	 * @param string $itemsPerPage Per page count
-	 * @return array An array of banner entities
-	 */
-	public function fetchAllByPage($page, $itemsPerPage);
+    /**
+     * Fetches all banner entities filtered by pagination
+     * 
+     * @param string $page Current page
+     * @param string $itemsPerPage Per page count
+     * @return array An array of banner entities
+     */
+    public function fetchAllByPage($page, $itemsPerPage);
 
-	/**
-	 * Fetches random banner's entity
-	 * 
-	 * @return \Krystal\Stdlib\VirtualEntity
-	 */
-	public function fetchRandom();
+    /**
+     * Fetches random banner's entity
+     * 
+     * @return \Krystal\Stdlib\VirtualEntity
+     */
+    public function fetchRandom();
 
-	/**
-	 * Fetches banner's entity by its associated id
-	 * 
-	 * @param string $id Banner id
-	 * @return boolean|\Krystal\Stdlib\VirtualEntity|boolean
-	 */
-	public function fetchById($id);
+    /**
+     * Fetches banner's entity by its associated id
+     * 
+     * @param string $id Banner id
+     * @return boolean|\Krystal\Stdlib\VirtualEntity|boolean
+     */
+    public function fetchById($id);
 
-	/**
-	 * Adds a banner
-	 * 
-	 * @param array $input Raw form input
-	 * @return boolean
-	 */
-	public function add(array $form);
+    /**
+     * Adds a banner
+     * 
+     * @param array $input Raw form input
+     * @return boolean
+     */
+    public function add(array $form);
 
-	/**
-	 * Updates a banner
-	 * 
-	 * @param array $input Raw form input
-	 * @return boolean
-	 */
-	public function update(array $input);
+    /**
+     * Updates a banner
+     * 
+     * @param array $input Raw form input
+     * @return boolean
+     */
+    public function update(array $input);
 
-	/**
-	 * Deletes a banner by its associated id
-	 * 
-	 * @param string $id Banner id
-	 * @return boolean
-	 */
-	public function deleteById($id);
+    /**
+     * Deletes a banner by its associated id
+     * 
+     * @param string $id Banner id
+     * @return boolean
+     */
+    public function deleteById($id);
 
-	/**
-	 * Delete banners by their associated ids
-	 * 
-	 * @param array $ids Array of banner ids
-	 * @return boolean
-	 */
-	public function deleteByIds(array $ids);
+    /**
+     * Delete banners by their associated ids
+     * 
+     * @param array $ids Array of banner ids
+     * @return boolean
+     */
+    public function deleteByIds(array $ids);
 }

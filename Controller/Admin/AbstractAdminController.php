@@ -15,13 +15,13 @@ use Cms\Controller\Admin\AbstractController;
 
 abstract class AbstractAdminController extends AbstractController
 {
-	/**
-	 * Just returns banner manager
-	 * 
-	 * @return \Banner\Service\BannerManager
-	 */
-	final protected function getBannerManager()
-	{
-		return $this->getModuleService('bannerManager');
-	}
+    /**
+     * Just returns banner manager
+     * 
+     * @return \Banner\Service\BannerManager
+     */
+    final protected function getBannerManager()
+    {
+        return $this->getModuleService('bannerManager');
+    }
 }

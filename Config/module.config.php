@@ -10,11 +10,11 @@
  */
 
 return array(
-	'module' => array(
-		'name'	=> 'Banner',
-		'url'	=> '/admin/module/banner',
-		'icon'	=> '/module/Banner/Assets/banner.png',
-		'order' => 1,
-		'description' => 'Banner module allows you to manage random banners of different formats on your site'
-	)
+    'module' => array(
+        'name'  => 'Banner',
+        'url'   => '/admin/module/banner',
+        'icon'  => '/module/Banner/Assets/banner.png',
+        'order' => 1,
+        'description' => 'Banner module allows you to manage random banners of different formats on your site'
+    )
 );

@@ -13,18 +13,18 @@ namespace Banner\Service;
 
 interface SiteServiceInterface
 {
-	/**
-	 * Returns random banner's entity
-	 * 
-	 * @return \Krystal\Stdlib\VirtualEntity
-	 */
-	public function getRandom();
+    /**
+     * Returns random banner's entity
+     * 
+     * @return \Krystal\Stdlib\VirtualEntity
+     */
+    public function getRandom();
 
-	/**
-	 * Returns banner's entity by its associated id, or false on failure
-	 * 
-	 * @param string $id Banner id
-	 * @return \Krystal\Stdlib\VirtualEntity|boolean
-	 */
-	public function getById($id);
+    /**
+     * Returns banner's entity by its associated id, or false on failure
+     * 
+     * @param string $id Banner id
+     * @return \Krystal\Stdlib\VirtualEntity|boolean
+     */
+    public function getById($id);
 }

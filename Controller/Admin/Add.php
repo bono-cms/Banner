@@ -15,43 +15,43 @@ use Krystal\Stdlib\VirtualEntity;
 
 final class Add extends AbstractBanner
 {
-	/**
-	 * Shows add form
-	 * 
-	 * @return string
-	 */
-	public function indexAction()
-	{
-		$this->loadSharedPlugins();
+    /**
+     * Shows add form
+     * 
+     * @return string
+     */
+    public function indexAction()
+    {
+        $this->loadSharedPlugins();
 
-		return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
-			'title' => 'Add a banner',
-			'banner' => new VirtualEntity()
-		)));
-	}
+        return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
+            'title' => 'Add a banner',
+            'banner' => new VirtualEntity()
+        )));
+    }
 
-	/**
-	 * Adds a banner
-	 * 
-	 * @return string
-	 */
-	public function addAction()
-	{
+    /**
+     * Adds a banner
+     * 
+     * @return string
+     */
+    public function addAction()
+    {
         $formValidator = $this->getValidator($this->request->getPost('banner'), $this->request->getFiles());
 
-		if ($formValidator->isValid()) {
+        if ($formValidator->isValid()) {
 
-			$bannerManager = $this->getBannerManager();
+            $bannerManager = $this->getBannerManager();
 
-			if ($bannerManager->add($this->request->getAll())) {
+            if ($bannerManager->add($this->request->getAll())) {
 
-				$this->flashBag->set('success', 'A banner has been added successfully');
-				return $bannerManager->getLastId();
-			}
+                $this->flashBag->set('success', 'A banner has been added successfully');
+                return $bannerManager->getLastId();
+            }
 
-		} else {
+        } else {
 
-			return $formValidator->getErrors();
-		}
-	}
+            return $formValidator->getErrors();
+        }
+    }
 }

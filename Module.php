@@ -19,20 +19,20 @@ use Banner\Service\SiteService;
 
 final class Module extends AbstractCmsModule
 {
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getServiceProviders()
-	{
-		$dirBag = new DirectoryBag($this->appConfig->getModuleUploadsDir('banner'));
-		$pathGenerator = new UrlPathGenerator('/data/uploads/module/banner');
+    /**
+     * {@inheritDoc}
+     */
+    public function getServiceProviders()
+    {
+        $dirBag = new DirectoryBag($this->appConfig->getModuleUploadsDir('banner'));
+        $pathGenerator = new UrlPathGenerator('/data/uploads/module/banner');
 
-		$bannerManager = new BannerManager($this->getMapper('/Banner/Storage/MySQL/BannerMapper'), $dirBag, $pathGenerator, $this->getHistoryManager());
-		$siteService = new SiteService($bannerManager);
+        $bannerManager = new BannerManager($this->getMapper('/Banner/Storage/MySQL/BannerMapper'), $dirBag, $pathGenerator, $this->getHistoryManager());
+        $siteService = new SiteService($bannerManager);
 
-		return array(
-			'bannerManager' => $bannerManager,
-			'siteService' => $siteService
-		);
-	}
+        return array(
+            'bannerManager' => $bannerManager,
+            'siteService' => $siteService
+        );
+    }
 }
