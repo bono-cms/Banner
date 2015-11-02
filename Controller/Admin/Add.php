@@ -23,11 +23,12 @@ final class Add extends AbstractBanner
     public function indexAction()
     {
         $this->loadSharedPlugins();
+        $this->loadBreadcrumbs('Add a banner');
 
-        return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
+        return $this->view->render($this->getTemplatePath(), array(
             'title' => 'Add a banner',
             'banner' => new VirtualEntity()
-        )));
+        ));
     }
 
     /**
@@ -40,17 +41,14 @@ final class Add extends AbstractBanner
         $formValidator = $this->getValidator($this->request->getPost('banner'), $this->request->getFiles());
 
         if ($formValidator->isValid()) {
-
             $bannerManager = $this->getBannerManager();
 
             if ($bannerManager->add($this->request->getAll())) {
-
                 $this->flashBag->set('success', 'A banner has been added successfully');
                 return $bannerManager->getLastId();
             }
 
         } else {
-
             return $formValidator->getErrors();
         }
     }

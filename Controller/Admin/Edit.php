@@ -25,14 +25,14 @@ final class Edit extends AbstractBanner
 
         if ($banner !== false) {
             $this->loadSharedPlugins();
+            $this->loadBreadcrumbs('Edit the banner');
 
-            return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
+            return $this->view->render($this->getTemplatePath(), array(
                 'title' => 'Edit the banner',
                 'banner' => $banner
-            )));
+            ));
 
         } else {
-
             return false;
         }
     }
@@ -47,15 +47,12 @@ final class Edit extends AbstractBanner
         $formValidator = $this->getValidator($this->request->getPost('banner'), $this->request->getFiles(), true);
 
         if ($formValidator->isValid()) {
-
             if ($this->getBannerManager()->update($this->request->getAll())) {
-
                 $this->flashBag->set('success', 'A banner has been updated successfully');
                 return '1';
             }
 
         } else {
-
             return $formValidator->getErrors();
         }
     }

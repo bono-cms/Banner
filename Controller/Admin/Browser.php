@@ -43,7 +43,7 @@ final class Browser extends AbstractAdminController
     private function loadPlugins()
     {
         $this->view->getPluginBag()
-                   ->appendScript($this->getWithAssetPath('/admin/browser.js'));
+                   ->appendScript('@Banner/admin/browser.js');
 
         $this->view->getBreadcrumbBag()->add(array(
             array(

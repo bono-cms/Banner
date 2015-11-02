@@ -52,30 +52,19 @@ abstract class AbstractBanner extends AbstractAdminController
     final protected function loadSharedPlugins()
     {
         $this->view->getPluginBag()
-                   ->appendScript($this->getWithAssetPath('/admin/banner.form.js'));
+                   ->appendScript('@Banner/admin/banner.form.js');
     }
 
     /**
-     * Returns shared variables
+     * Loads breadcrumbs
      * 
-     * @param array $overrides
-     * @return array
+     * @param string $title
+     * @return void
      */
-    final protected function getWithSharedVars(array $overrides)
+    final protected function loadBreadcrumbs($title)
     {
-        $this->view->getBreadcrumbBag()->add(array(
-            array(
-                'link' => 'Banner:Admin:Browser@indexAction',
-                'name' => 'Banner'
-            ),
-            array(
-                'link' => '#',
-                'name' => $overrides['title']
-            )
-        ));
-
-        $vars = array();
-        return array_replace_recursive($vars, $overrides);
+        $this->view->getBreadcrumbBag()->addOne('Banner', 'Banner:Admin:Browser@indexAction')
+                                       ->addOne($title);
     }
 
     /**
