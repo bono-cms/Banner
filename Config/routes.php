@@ -12,37 +12,28 @@
 return array(
     
     '/admin/module/banner' => array(
-        'controller' => 'Admin:Browser@indexAction'
+        'controller' => 'Admin:Banner@gridAction'
     ),
     
     '/admin/module/banner/page/(:var)' => array(
-        'controller' => 'Admin:Browser@indexAction'
+        'controller' => 'Admin:Banner@gridAction'
     ),
     
-    '/admin/module/banner/delete.ajax' => array(
-        'controller' => 'Admin:Browser@deleteAction',
+    '/admin/module/banner/delete' => array(
+        'controller' => 'Admin:Banner@deleteAction',
         'disallow' => array('guest')
-    ),
-    
-    '/admin/module/banner/delete-selected.ajax' => array(
-        'controller' => 'Admin:Browser@deleteSelectedAction'
     ),
     
     '/admin/module/banner/add' => array(
-        'controller' => 'Admin:Add@indexAction'
-    ),
-    
-    '/admin/module/banner/add.ajax' => array(
-        'controller' => 'Admin:Add@addAction',
-        'disallow' => array('guest')
+        'controller' => 'Admin:Banner@addAction'
     ),
     
     '/admin/module/banner/edit/(:var)'  =>  array(
-        'controller' => 'Admin:Edit@indexAction'
+        'controller' => 'Admin:Banner@editAction'
     ),
     
-    '/admin/module/banner/edit.ajax' => array(
-        'controller' => 'Admin:Edit@updateAction',
+    '/admin/module/banner/save' => array(
+        'controller' => 'Admin:Banner@saveAction',
         'disallow' => array('guest')
     )
 );
