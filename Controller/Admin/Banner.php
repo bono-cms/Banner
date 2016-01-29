@@ -30,7 +30,8 @@ final class Banner extends AbstractController
                    ->appendScript('@Banner/admin/browser.js');
 
         // Append a breadcrumb
-        $this->view->getBreadcrumbBag()->addOne('Banner');
+        $this->view->getBreadcrumbBag()
+                   ->addOne('Banner');
 
         $bannerManager = $this->getModuleService('bannerManager');
         $paginator = $bannerManager->getPaginator();
@@ -38,8 +39,7 @@ final class Banner extends AbstractController
 
         return $this->view->render('browser', array(
             'banners' => $bannerManager->fetchAllByPage($page, $this->getSharedPerPageCount()),
-            'paginator' => $paginator,
-            'title' => 'Banner',
+            'paginator' => $paginator
         ));
     }
 
@@ -61,7 +61,6 @@ final class Banner extends AbstractController
                                        ->addOne($title);
 
         return $this->view->render('banner.form', array(
-            'title' => $title,
             'banner' => $banner
         ));
     }
