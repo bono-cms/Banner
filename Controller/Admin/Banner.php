@@ -99,28 +99,7 @@ final class Banner extends AbstractController
      */
     public function deleteAction()
     {
-        $bannerManager = $this->getModuleService('bannerManager');
-
-        // Batch removal
-        if ($this->request->hasPost('toDelete')) {
-            $ids = array_keys($this->request->getPost('toDelete'));
-
-            $bannerManager->deleteByIds($ids);
-            $this->flashBag->set('success', 'Selected banners have been removed successfully');
-        } else {
-            $this->flashBag->set('warning', 'You should select at least one banner to remove');
-        }
-
-        // Single removal
-        if ($this->request->hasPost('id')) {
-            $id = $this->request->getPost('id');
-
-            if ($bannerManager->deleteById($id)) {
-                $this->flashBag->set('success', 'A banner has been removed successfully');
-            }
-        }
-
-        return '1';
+        return $this->invokeRemoval('bannerManager');
     }
 
     /**
@@ -132,7 +111,7 @@ final class Banner extends AbstractController
     {
         $input = $this->request->getPost('banner');
 
-        $formValidator = $this->validatorFactory->build(array(
+        return $this->invokeSave('bannerManager', $input['id'], $this->request->getAll(), array(
             'input' => array(
                 'source' => $input,
                 'definition' => array(
@@ -149,24 +128,5 @@ final class Banner extends AbstractController
                 )
             )
         ));
-
-        if ($formValidator->isValid()) {
-            $bannerManager = $this->getModuleService('bannerManager');
-            
-            if ($input['id']){
-                if ($bannerManager->update($this->request->getAll())) {
-                    $this->flashBag->set('success', 'A banner has been updated successfully');
-                    return '1';
-                }
-            } else {
-                if ($bannerManager->add($this->request->getAll())) {
-                    $this->flashBag->set('success', 'A banner has been added successfully');
-                    return $bannerManager->getLastId();
-                }
-            }
-            
-        } else {
-            return $formValidator->getErrors();
-        }
     }
 }
