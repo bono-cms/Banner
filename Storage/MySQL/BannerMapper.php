@@ -21,7 +21,7 @@ final class BannerMapper extends AbstractMapper implements BannerMapperInterface
      */
     public static function getTableName()
     {
-        return 'bono_module_banner';
+        return self::getWithPrefix('bono_module_banner');
     }
 
     /**
