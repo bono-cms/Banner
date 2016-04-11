@@ -35,7 +35,7 @@ final class Banner extends AbstractController
 
         $bannerManager = $this->getModuleService('bannerManager');
         $paginator = $bannerManager->getPaginator();
-        $paginator->setUrl('/admin/module/banner/page/(:var)');
+        $paginator->setUrl($this->createUrl('Banner:Admin:Banner@gridAction', array(), 1));
 
         return $this->view->render('browser', array(
             'banners' => $bannerManager->fetchAllByPage($page, $this->getSharedPerPageCount()),
