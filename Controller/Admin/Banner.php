@@ -25,10 +25,6 @@ final class Banner extends AbstractController
      */
     public function gridAction($page = 1)
     {
-        // Load view plugins
-        $this->view->getPluginBag()
-                   ->appendScript('@Banner/admin/browser.js');
-
         // Append a breadcrumb
         $this->view->getBreadcrumbBag()
                    ->addOne('Banner');
@@ -95,11 +91,12 @@ final class Banner extends AbstractController
     /**
      * Deletes a banner by its associated id
      * 
+     * @param string $id
      * @return string The response
      */
-    public function deleteAction()
+    public function deleteAction($id)
     {
-        return $this->invokeRemoval('bannerManager');
+        return $this->invokeRemoval('bannerManager', $id);
     }
 
     /**

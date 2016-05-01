@@ -19,7 +19,7 @@ return array(
         'controller' => 'Admin:Banner@gridAction'
     ),
     
-    '/admin/module/banner/delete' => array(
+    '/admin/module/banner/delete/(:var)' => array(
         'controller' => 'Admin:Banner@deleteAction',
         'disallow' => array('guest')
     ),
