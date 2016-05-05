@@ -10,29 +10,28 @@
  */
 
 return array(
-    
-    '/admin/module/banner' => array(
+    '/%s/module/banner' => array(
         'controller' => 'Admin:Banner@gridAction'
     ),
     
-    '/admin/module/banner/page/(:var)' => array(
+    '/%s/module/banner/page/(:var)' => array(
         'controller' => 'Admin:Banner@gridAction'
     ),
     
-    '/admin/module/banner/delete/(:var)' => array(
+    '/%s/module/banner/delete/(:var)' => array(
         'controller' => 'Admin:Banner@deleteAction',
         'disallow' => array('guest')
     ),
     
-    '/admin/module/banner/add' => array(
+    '/%s/module/banner/add' => array(
         'controller' => 'Admin:Banner@addAction'
     ),
     
-    '/admin/module/banner/edit/(:var)'  =>  array(
+    '/%s/module/banner/edit/(:var)'  =>  array(
         'controller' => 'Admin:Banner@editAction'
     ),
     
-    '/admin/module/banner/save' => array(
+    '/%s/module/banner/save' => array(
         'controller' => 'Admin:Banner@saveAction',
         'disallow' => array('guest')
     )
