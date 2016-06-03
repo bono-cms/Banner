@@ -112,7 +112,7 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
             ->setName(Filter::escape($banner['name']))
             ->setLink(Filter::escape($banner['link']))
             ->setFile($banner['file'])
-            ->setUrlPath($this->urlPathGenerator->getPath($entity->getId(), $entity->getImage()));
+            ->setUrlPath($this->urlPathGenerator->getPath($entity->getId(), $entity->getFile()));
 
         return $entity;
     }
