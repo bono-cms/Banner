@@ -19,7 +19,7 @@
 	</div>
 </div>
 
-<?php $this->loadBlock('items-per-page', array('caption' => 'Latest banners')); ?>
+<?php $this->loadPartial('items-per-page', array('caption' => 'Latest banners')); ?>
 
 <form>
 	<div class="table-responsive">
@@ -67,4 +67,4 @@
 	</div>
 </form>
 
-<?php $this->loadBlock('paginator'); ?>
+<?php $this->loadPartial('paginator'); ?>
