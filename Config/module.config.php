@@ -1,6 +1,7 @@
 <?php
 
 return array(
+ 'caption'  => 'Banner',
  'name'  => 'Banner',
  'route' => 'Banner:Admin:Banner@gridAction',
  'icon'  => 'fa fa-file-image-o fa-5x',
