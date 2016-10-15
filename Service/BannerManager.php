@@ -109,9 +109,9 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
     {
         $entity = new VirtualEntity();
         $entity->setId($banner['id'], VirtualEntity::FILTER_INT)
-            ->setName($banner['name'], VirtualEntity::FILTER_TAGS)
-            ->setLink($banner['link'], VirtualEntity::FILTER_TAGS)
-            ->setFile($banner['file'], VirtualEntity::FILTER_TAGS)
+            ->setName($banner['name'], VirtualEntity::FILTER_HTML)
+            ->setLink($banner['link'], VirtualEntity::FILTER_HTML)
+            ->setFile($banner['file'], VirtualEntity::FILTER_HTML)
             ->setUrlPath($this->urlPathGenerator->getPath($entity->getId(), $entity->getFile()));
 
         return $entity;
