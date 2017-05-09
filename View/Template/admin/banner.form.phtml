@@ -1,7 +1,7 @@
-<?php defined('KRYSTAL') or die; ?>
 <?php
 
 use Krystal\Form\Element;
+defined('KRYSTAL') or die;
 
 ?>
 
@@ -28,7 +28,8 @@ use Krystal\Form\Element;
 		<div class="form-group">
 			<label class="col-lg-2 control-label"><?php $this->show('File'); ?></label>
 			<div class="col-lg-10">
-                <?php echo Element::file('banner'); ?>
+                <a class="btn btn-primary" data-button="upload" data-target="[name='banner']" href="#"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Upload a file'); ?></a>
+                <?php echo Element::file('banner', null, array('class' => 'hidden')); ?>
 			</div>
 		</div>
 	</div>
