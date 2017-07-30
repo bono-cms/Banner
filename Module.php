@@ -14,6 +14,7 @@ namespace Banner;
 use Krystal\Http\FileTransfer\DirectoryBag;
 use Krystal\Http\FileTransfer\UrlPathGenerator;
 use Cms\AbstractCmsModule;
+use Banner\Service\CategoryManager;
 use Banner\Service\BannerManager;
 use Banner\Service\SiteService;
 
@@ -28,10 +29,13 @@ final class Module extends AbstractCmsModule
         $pathGenerator = new UrlPathGenerator('/data/uploads/module/banner');
 
         $bannerManager = new BannerManager($this->getMapper('/Banner/Storage/MySQL/BannerMapper'), $dirBag, $pathGenerator, $this->getHistoryManager());
+        $categoryManager = new CategoryManager($this->getMapper('/Banner/Storage/MySQL/CategoryMapper'));
+
         $siteService = new SiteService($bannerManager);
 
         return array(
             'bannerManager' => $bannerManager,
+            'categoryManager' => $categoryManager,
             'siteService' => $siteService
         );
     }
