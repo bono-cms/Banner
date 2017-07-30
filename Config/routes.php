@@ -14,6 +14,22 @@ return array(
         'controller' => 'Admin:Banner@gridAction'
     ),
     
+    '/%s/module/banner/category/add' => array(
+        'controller' => 'Admin:Category@addAction'
+    ),
+
+    '/%s/module/banner/category/edit/(:var)' => array(
+        'controller' => 'Admin:Category@editAction'
+    ),
+
+    '/%s/module/banner/category/delete/(:var)' => array(
+        'controller' => 'Admin:Category@deleteAction'
+    ),
+
+    '/%s/module/banner/category/save' => array(
+        'controller' => 'Admin:Category@saveAction'
+    ),
+    
     '/%s/module/banner/page/(:var)' => array(
         'controller' => 'Admin:Banner@gridAction'
     ),
