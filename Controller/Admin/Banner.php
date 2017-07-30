@@ -35,7 +35,8 @@ final class Banner extends AbstractController
 
         return $this->view->render('browser', array(
             'banners' => $bannerManager->fetchAllByPage($page, $this->getSharedPerPageCount()),
-            'paginator' => $paginator
+            'paginator' => $paginator,
+            'categories' => $this->getModuleService('categoryManager')->fetchAll()
         ));
     }
 
@@ -57,7 +58,8 @@ final class Banner extends AbstractController
                                        ->addOne($title);
 
         return $this->view->render('banner.form', array(
-            'banner' => $banner
+            'banner' => $banner,
+            'categories' => $this->getModuleService('categoryManager')->fetchList()
         ));
     }
 

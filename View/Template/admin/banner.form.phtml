@@ -17,7 +17,14 @@ defined('KRYSTAL') or die;
                 <?php echo Element::text('banner[name]', $banner->getName(), array('class' => 'form-control', 'placeholder' => $this->translate('Banner name'))); ?>
 			</div>
 		</div>
-		
+
+		<div class="form-group">
+			<label class="col-lg-2 control-label"><?php $this->show('Category'); ?></label>
+			<div class="col-lg-10">
+                <?php echo Element::select('banner[category_id]', $categories, $banner->getCategoryId(), array('class' => 'form-control')); ?>
+			</div>
+		</div>
+
 		<div class="form-group">
 			<label class="col-lg-2 control-label"><?php $this->show('URL Link'); ?></label>
 			<div class="col-lg-10">

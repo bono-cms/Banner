@@ -1,4 +1,5 @@
 <?php defined('KRYSTAL') or die; ?>
+
 <div class="btn-toolbar">
 	<div class="btn-group">
 	  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -6,6 +7,7 @@
 	  </button>
 	  <ul class="dropdown-menu">
 		 <li><a href="<?php echo $this->url('Banner:Admin:Banner@addAction'); ?>"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Add new banner'); ?></a></li>
+		 <li><a href="<?php echo $this->url('Banner:Admin:Category@addAction'); ?>"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Add new category'); ?></a></li>
 		 <li class="divider"></li>
 		 <li class="dropdown-header"><?php $this->show('Actions'); ?></li>
 		 
@@ -19,52 +21,90 @@
 	</div>
 </div>
 
-<?php $this->loadPartial('items-per-page', array('caption' => 'Latest banners')); ?>
+<div class="row">
+    <div class="col-lg-6">
+        <?php $this->loadPartial('items-per-page', array('caption' => 'Latest banners')); ?>
 
-<form>
-	<div class="table-responsive">
-		<table class="table table-hover table-bordered table-striped table-condensed">
-			<thead>
-				<tr>
-					<th class="text-center">
-						<?php if (!empty($banners)): ?>
-						<input type="checkbox" />
-						<?php endif; ?>
-					</th>
-					<th class="text-center"><?php $this->show('#'); ?></th>
-					<th class="text-center"><?php $this->show('Name'); ?></th>
-					<th class="text-center"><?php $this->show('Actions'); ?></th>
-				</tr>
-			</thead>
-			
-			<?php if (!empty($banners)): ?>
-			<tbody>
-				<?php foreach ($banners as $banner): ?>
-				<tr>
-					<td class="text-center">
-						<input type="checkbox" name="toDelete[<?php echo $banner->getId(); ?>]" />
-					</td>
-					<td class="text-center text-muted"><?php echo $banner->getId(); ?></td>
-					<td class="text-center"><?php echo $banner->getName(); ?></td>
-					<td class="text-center">
-						<a data-button="edit" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Edit this banner'); ?>" href="<?php echo $this->url('Banner:Admin:Banner@editAction', $banner->getId()); ?>"><i class="glyphicon glyphicon-pencil"></i></a>
-						<a data-button="delete" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Remove this banner'); ?>" data-url="<?php echo $this->url('Banner:Admin:Banner@deleteAction', $banner->getId()); ?>" href="#"><i class="glyphicon glyphicon-remove"></i></a>
-					</td>
-				</tr>
-				<?php endforeach; ?>
-				
-			</tbody>
-			<?php endif; ?>
-			
-		</table>
-		
-		<?php if (empty($banners)): ?>
-		<div class="center-block">
-			<h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No banners'); ?></h2>
-		</div>
-		<?php endif; ?>
-		
-	</div>
-</form>
+        <form>
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered table-striped table-condensed">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                <?php if (!empty($banners)): ?>
+                                <input type="checkbox" />
+                                <?php endif; ?>
+                            </th>
+                            <th class="text-center"><?php $this->show('#'); ?></th>
+                            <th class="text-center"><?php $this->show('Name'); ?></th>
+                            <th class="text-center"><?php $this->show('Actions'); ?></th>
+                        </tr>
+                    </thead>
+                    
+                    <?php if (!empty($banners)): ?>
+                    <tbody>
+                        <?php foreach ($banners as $banner): ?>
+                        <tr>
+                            <td class="text-center">
+                                <input type="checkbox" name="toDelete[<?php echo $banner->getId(); ?>]" />
+                            </td>
+                            <td class="text-center text-muted"><?php echo $banner->getId(); ?></td>
+                            <td class="text-center"><?php echo $banner->getName(); ?></td>
+                            <td class="text-center">
+                                <a data-button="edit" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Edit this banner'); ?>" href="<?php echo $this->url('Banner:Admin:Banner@editAction', $banner->getId()); ?>"><i class="glyphicon glyphicon-pencil"></i></a>
+                                <a data-button="delete" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Remove this banner'); ?>" data-url="<?php echo $this->url('Banner:Admin:Banner@deleteAction', $banner->getId()); ?>" href="#"><i class="glyphicon glyphicon-remove"></i></a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                        
+                    </tbody>
+                    <?php endif; ?>
+                </table>
+                
+                <?php if (empty($banners)): ?>
+                <div class="center-block">
+                    <h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No banners'); ?></h2>
+                </div>
+                <?php endif; ?>
+                
+            </div>
+        </form>
 
-<?php $this->loadPartial('paginator'); ?>
+        <?php $this->loadPartial('paginator'); ?>
+    </div>
+
+    <div class="col-lg-6">
+        <h2><?php $this->show('Categories'); ?> <small>(<?php echo count($categories); ?>)</small></h2>
+
+        <table class="table table-hover table-bordered table-striped table-condensed">
+            <thead>
+                <tr>
+                    <th class="text-center"><?php $this->show('#'); ?></th>
+                    <th class="text-center"><?php $this->show('Name'); ?></th>
+                    <th class="text-center"><?php $this->show('Actions'); ?></th>
+                </tr>
+            </thead>
+
+            <?php if (!empty($categories)): ?>
+            <tbody>
+                <?php foreach ($categories as $category): ?>
+                <tr>
+                    <td class="text-center text-muted"><?php echo $category->getId(); ?></td>
+                    <td class="text-center"><?php echo $category->getName(); ?></td>
+                    <td class="text-center">
+                        <a data-button="edit" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Edit this category'); ?>" href="<?php echo $this->url('Banner:Admin:Category@editAction', $category->getId()); ?>"><i class="glyphicon glyphicon-pencil"></i></a>
+                        <a data-button="delete" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Remove this category'); ?>" data-url="<?php echo $this->url('Banner:Admin:Category@deleteAction', $category->getId()); ?>" href="#"><i class="glyphicon glyphicon-remove"></i></a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+            <?php endif; ?>
+        </table>
+
+        <?php if (empty($categories)): ?>
+        <div class="center-block">
+            <h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No categories'); ?></h2>
+        </div>
+        <?php endif; ?>
+    </div>
+</div>
