@@ -31,6 +31,27 @@ defined('KRYSTAL') or die;
                 <?php echo Element::text('banner[link]', $banner->getLink(), array('class' => 'form-control', 'placeholder' => $this->translate('URL link when clicked'))); ?>
 			</div>
 		</div>
+
+		<div class="form-group">
+			<label class="col-lg-2 control-label"><?php $this->show('Maximal allowed clicks'); ?></label>
+			<div class="col-lg-10">
+                <?php echo Element::number('banner[max_clicks]', $banner->getMaxClickCount(), array('min' => 1, 'class' => 'form-control', 'placeholder' => $this->translate('Maximal allowed clicks before this banner is hidden automatically'))); ?>
+			</div>
+		</div>
+
+        <div class="form-group">
+			<label class="col-lg-2 control-label"><?php $this->show('Maximal allowed views'); ?></label>
+			<div class="col-lg-10">
+                <?php echo Element::number('banner[max_views]', $banner->getMaxViewCount(), array('min' => 1, 'class' => 'form-control', 'placeholder' => $this->translate('Maximal allowed views before this banner is hidden automatically'))); ?>
+			</div>
+		</div>
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label"><?php $this->show('Maximal allowed date'); ?></label>
+			<div class="col-lg-10">
+                <?php echo Element::text('banner[max_datetime]', $banner->getMaxDatetime(), array('class' => 'form-control', 'placeholder' => $this->translate('Expiration date of this banner'))); ?>
+			</div>
+		</div>
 		
 		<div class="form-group">
 			<label class="col-lg-2 control-label"><?php $this->show('File'); ?></label>

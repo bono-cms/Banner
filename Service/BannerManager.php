@@ -135,8 +135,11 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
             ->setLink($banner['link'], VirtualEntity::FILTER_HTML)
             ->setFile($banner['file'], VirtualEntity::FILTER_HTML)
             ->setViewCount($banner['views'], VirtualEntity::FILTER_INT)
+            ->setMaxViewCount($banner['max_views'], VirtualEntity::FILTER_INT)
             ->setClickCount($banner['clicks'], VirtualEntity::FILTER_INT)
+            ->setMaxClickCount($banner['max_clicks'], VirtualEntity::FILTER_INT)
             ->setDatetime($banner['datetime'])
+            ->setMaxDatetime($banner['max_datetime'])
             ->setUrlPath($this->urlPathGenerator->getPath($entity->getId(), $entity->getFile()))
             ->setTargetUrl(sprintf('/module/banner/target/?%s', http_build_query(array('id' => $entity->getId(), 'url' => $entity->getLink()))));
 

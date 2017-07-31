@@ -8,9 +8,12 @@ CREATE TABLE `bono_module_banner` (
 	`name` varchar(254) NOT NULL,
 	`link` varchar(254) NOT NULL,
 	`file` varchar(254) NOT NULL,
-    `clicks` INT COMMENT DEFAULT 0 COMMENT 'Click counter',
-    `views` INT COMMENT DEFAULT 0 COMMENT 'View counter',
-    `datetime` TIMESTAMP COMMENT 'Uploading date and time'
+    `clicks` INT DEFAULT 0 COMMENT 'Click counter',
+    `max_clicks` INT DEFAULT 0 COMMENT 'Maximal allowed clicks',
+    `views` INT DEFAULT 0 COMMENT 'View counter',
+    `max_views` INT DEFAULT 0 COMMENT 'Maximal allowed views',
+    `datetime` TIMESTAMP COMMENT 'Uploading date and time',
+    `max_datetime` TIMESTAMP COMMENT 'Ending date and time'
 	
 ) DEFAULT CHARSET = UTF8;
 
