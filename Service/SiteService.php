@@ -43,6 +43,19 @@ final class SiteService implements SiteServiceInterface
     }
 
     /**
+     * Increments entity view count
+     * 
+     * @param mixed $entity
+     * @return void
+     */
+    private function incrementViewCount($entity)
+    {
+        if ($entity !== false) {
+            $this->bannerManager->incrementViewCount($entity->getId());
+        }
+    }
+
+    /**
      * Fetch all banners from available categories in random order
      * 
      * @return array
@@ -52,11 +65,14 @@ final class SiteService implements SiteServiceInterface
         $banners = array();
 
         foreach ($this->categoryMapper->fetchAll(false) as $category) {
-            $entity = $this->getRandom($category['id']);
+            $entity = $this->bannerManager->fetchRandom($category['id']);
 
             // Add only if there's at least one banner in current category
             if ($entity !== false) {
                 $banners[] = $entity;
+
+                // Increment view count
+                $this->incrementViewCount($entity);
             }
         }
 
@@ -71,7 +87,11 @@ final class SiteService implements SiteServiceInterface
      */
     public function getRandom($categoryId = null)
     {
-        return $this->bannerManager->fetchRandom($categoryId);
+        $entity = $this->bannerManager->fetchRandom($categoryId);
+
+        // Increment view count
+        $this->incrementViewCount($entity);
+        return $entity;
     }
 
     /**
@@ -82,6 +102,10 @@ final class SiteService implements SiteServiceInterface
      */
     public function getById($id)
     {
-        return $this->bannerManager->fetchById($id);
+        $entity = $this->bannerManager->fetchById($id);
+
+        // Increment view count
+        $this->incrementViewCount($entity);
+        return $entity;
     }
 }
