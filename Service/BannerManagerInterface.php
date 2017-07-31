@@ -33,9 +33,10 @@ interface BannerManagerInterface
      * 
      * @param string $page Current page
      * @param string $itemsPerPage Per page count
+     * @param string $categoryId Optional category ID filter
      * @return array An array of banner entities
      */
-    public function fetchAllByPage($page, $itemsPerPage);
+    public function fetchAllByPage($page, $itemsPerPage, $categoryId = null);
 
     /**
      * Fetches random banner's entity

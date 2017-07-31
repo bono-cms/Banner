@@ -122,11 +122,12 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
      * 
      * @param string $page Current page
      * @param string $itemsPerPage Per page count
+     * @param string $categoryId Optional category ID filter
      * @return array An array of banner entities
      */
-    public function fetchAllByPage($page, $itemsPerPage)
+    public function fetchAllByPage($page, $itemsPerPage, $categoryId = null)
     {
-        return $this->prepareResults($this->bannerMapper->fetchAllByPage($page, $itemsPerPage));
+        return $this->prepareResults($this->bannerMapper->fetchAllByPage($page, $itemsPerPage, $categoryId));
     }
 
     /**

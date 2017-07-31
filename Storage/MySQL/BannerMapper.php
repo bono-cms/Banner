@@ -62,17 +62,25 @@ final class BannerMapper extends AbstractMapper implements BannerMapperInterface
      * 
      * @param integer $page Current page
      * @param string $itemsPerPage Per page count
+     * @param string $categoryId Optional category ID filter
      * @return array
      */
-    public function fetchAllByPage($page, $itemsPerPage)
+    public function fetchAllByPage($page, $itemsPerPage, $categoryId)
     {
-        return $this->db->select('*')
-                        ->from(static::getTableName())
-                        ->whereEquals('lang_id', $this->getLangId())
-                        ->orderBy('id')
-                        ->desc()
-                        ->paginate($page, $itemsPerPage)
-                        ->queryAll();
+        // Initial select
+        $db = $this->db->select('*')
+                       ->from(self::getTableName())
+                       ->whereEquals('lang_id', $this->getLangId());
+
+        // Optional category ID filter
+        if ($categoryId !== null) {
+            $db->andWhereEquals('category_id', $categoryId);
+        }
+
+        return $db->orderBy('id')
+                  ->desc()
+                  ->paginate($page, $itemsPerPage)
+                  ->queryAll();
     }
 
     /**

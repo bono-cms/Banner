@@ -42,9 +42,10 @@ interface BannerMapperInterface
      * 
      * @param integer $page Current page
      * @param string $itemsPerPage Per page count
+     * @param string $categoryId Optional category ID filter
      * @return array
      */
-    public function fetchAllByPage($page, $itemsPerPage);
+    public function fetchAllByPage($page, $itemsPerPage, $categoryId);
 
     /**
      * Fetches random banner
