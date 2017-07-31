@@ -8,7 +8,8 @@ CREATE TABLE `bono_module_banner` (
 	`name` varchar(254) NOT NULL,
 	`link` varchar(254) NOT NULL,
 	`file` varchar(254) NOT NULL,
-    `clicks` INT COMMENT DEFAULT 0 COMMENT 'Click counter'
+    `clicks` INT COMMENT DEFAULT 0 COMMENT 'Click counter',
+    `views` INT COMMENT DEFAULT 0 COMMENT 'View counter'
 	
 ) DEFAULT CHARSET = UTF8;
 
