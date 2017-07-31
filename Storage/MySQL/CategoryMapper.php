@@ -13,6 +13,7 @@ namespace Banner\Storage\MySQL;
 
 use Cms\Storage\MySQL\AbstractMapper;
 use Banner\Storage\CategoryMapperInterface;
+use Krystal\Db\Sql\RawSqlFragment;
 
 final class CategoryMapper extends AbstractMapper implements CategoryMapperInterface
 {
@@ -31,9 +32,19 @@ final class CategoryMapper extends AbstractMapper implements CategoryMapperInter
      */
     public function fetchAll()
     {
-        return $this->db->select('*')
-                        ->from(self::getTableName())
-                        ->orderBy('id')
+        $columns = array(
+            self::getFullColumnName('id'),
+            self::getFullColumnName('name')
+        );
+
+        return $this->db->select($columns)
+                        ->count(BannerMapper::getFullColumnName('id'), 'banners_count')
+                        ->from(BannerMapper::getTableName())
+                        ->rightJoin(self::getTableName())
+                        ->on()
+                        ->equals(self::getFullColumnName('id'), new RawSqlFragment(BannerMapper::getFullColumnName('category_id')))
+                        ->groupBy(self::getFullColumnName('id'))
+                        ->orderBy(self::getFullColumnName('id'))
                         ->desc()
                         ->queryAll();
     }
