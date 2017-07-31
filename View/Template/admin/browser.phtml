@@ -49,7 +49,7 @@
                                 <input type="checkbox" name="toDelete[<?php echo $banner->getId(); ?>]" />
                             </td>
                             <td class="text-center text-muted"><?php echo $banner->getId(); ?></td>
-                            <td class="text-center"><?php echo $banner->getName(); ?></td>
+                            <td><?php echo $banner->getName(); ?></td>
                             <td class="text-center">
                                 <a data-button="edit" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Edit this banner'); ?>" href="<?php echo $this->url('Banner:Admin:Banner@editAction', $banner->getId()); ?>"><i class="glyphicon glyphicon-pencil"></i></a>
                                 <a data-button="delete" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Remove this banner'); ?>" data-url="<?php echo $this->url('Banner:Admin:Banner@deleteAction', $banner->getId()); ?>" href="#"><i class="glyphicon glyphicon-remove"></i></a>
@@ -90,7 +90,7 @@
                 <?php foreach ($categories as $category): ?>
                 <tr class="<?php echo $category->getId() == $categoryId ? 'info' : null; ?>">
                     <td class="text-center text-muted"><?php echo $category->getId(); ?></td>
-                    <td class="text-center">
+                    <td>
                         <a href="<?php echo $this->url('Banner:Admin:Banner@categoryAction', $category->getId()); ?>"><?php echo $category->getName(); ?></a>
                     </td>
                     <td class="text-center">
