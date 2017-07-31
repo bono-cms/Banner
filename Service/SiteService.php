@@ -52,7 +52,12 @@ final class SiteService implements SiteServiceInterface
         $banners = array();
 
         foreach ($this->categoryMapper->fetchAll(false) as $category) {
-            $banners[] = $this->getRandom($category['id']);
+            $entity = $this->getRandom($category['id']);
+
+            // Add only if there's at least one banner in current category
+            if ($entity !== false) {
+                $banners[] = $entity;
+            }
         }
 
         return $banners;
