@@ -18,25 +18,30 @@ use Cms\Controller\Admin\AbstractController;
 final class Banner extends AbstractController
 {
     /**
-     * Renders a grid
+     * Creates a grid
      * 
+     * @param string $url Banner's URL
      * @param string $page Current page
+     * @param string $categoryId Optional category ID filter
      * @return string
      */
-    public function gridAction($page = 1)
+    private function createGrid($url, $page, $categoryId)
     {
         // Append a breadcrumb
         $this->view->getBreadcrumbBag()
                    ->addOne('Banner');
 
         $bannerManager = $this->getModuleService('bannerManager');
+
+        // Configure paginator instance
         $paginator = $bannerManager->getPaginator();
-        $paginator->setUrl($this->createUrl('Banner:Admin:Banner@gridAction', array(), 1));
+        $paginator->setUrl($url);
 
         return $this->view->render('browser', array(
-            'banners' => $bannerManager->fetchAllByPage($page, $this->getSharedPerPageCount()),
+            'banners' => $bannerManager->fetchAllByPage($page, $this->getSharedPerPageCount(), $categoryId),
             'paginator' => $paginator,
-            'categories' => $this->getModuleService('categoryManager')->fetchAll()
+            'categories' => $this->getModuleService('categoryManager')->fetchAll(),
+            'categoryId' => $categoryId
         ));
     }
 
@@ -61,6 +66,29 @@ final class Banner extends AbstractController
             'banner' => $banner,
             'categories' => $this->getModuleService('categoryManager')->fetchList()
         ));
+    }
+
+    /**
+     * Renders the category
+     * 
+     * @param string $categoryId
+     * @param string $page Current page
+     * @return string
+     */
+    public function categoryAction($categoryId, $page = 1)
+    {
+        return $this->createGrid($this->createUrl('Banner:Admin:Banner@categoryAction', array($categoryId), 1), $page, $categoryId);
+    }
+
+    /**
+     * Renders a grid
+     * 
+     * @param string $page Current page
+     * @return string
+     */
+    public function gridAction($page = 1)
+    {
+        return $this->createGrid($this->createUrl('Banner:Admin:Banner@gridAction', array(), 1), $page, null);
     }
 
     /**

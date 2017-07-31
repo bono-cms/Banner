@@ -14,6 +14,14 @@ return array(
         'controller' => 'Admin:Banner@gridAction'
     ),
     
+    '/%s/module/banner/category/view/(:var)' => array(
+        'controller' => 'Admin:Banner@categoryAction'
+    ),
+
+    '/%s/module/banner/category/view/(:var)/page/(:var)' => array(
+        'controller' => 'Admin:Banner@categoryAction'
+    ),
+    
     '/%s/module/banner/category/add' => array(
         'controller' => 'Admin:Category@addAction'
     ),
