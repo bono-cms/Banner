@@ -49,9 +49,10 @@ interface BannerManagerInterface
     /**
      * Fetches random banner's entity
      * 
+     * @param string $categoryId Optional category ID filter
      * @return \Krystal\Stdlib\VirtualEntity
      */
-    public function fetchRandom();
+    public function fetchRandom($categoryId = null);
 
     /**
      * Fetches banner's entity by its associated id

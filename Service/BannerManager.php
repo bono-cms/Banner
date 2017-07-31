@@ -145,11 +145,12 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
     /**
      * Fetches random banner's entity
      * 
+     * @param string $categoryId Optional category ID filter
      * @return \Krystal\Stdlib\VirtualEntity
      */
-    public function fetchRandom()
+    public function fetchRandom($categoryId = null)
     {
-        return $this->prepareResult($this->bannerMapper->fetchRandom());
+        return $this->prepareResult($this->bannerMapper->fetchRandom($categoryId));
     }
 
     /**

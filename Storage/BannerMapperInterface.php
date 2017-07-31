@@ -58,9 +58,10 @@ interface BannerMapperInterface
     /**
      * Fetches random banner
      * 
+     * @param string $categoryId Optional category ID filter
      * @return array
      */
-    public function fetchRandom();
+    public function fetchRandom($categoryId);
 
     /**
      * Fetches banner's data by its associated id

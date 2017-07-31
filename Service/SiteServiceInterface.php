@@ -16,9 +16,10 @@ interface SiteServiceInterface
     /**
      * Returns random banner's entity
      * 
+     * @param string $categoryId Optional category ID filter
      * @return \Krystal\Stdlib\VirtualEntity
      */
-    public function getRandom();
+    public function getRandom($categoryId = null);
 
     /**
      * Returns banner's entity by its associated id, or false on failure

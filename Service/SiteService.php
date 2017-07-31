@@ -34,11 +34,12 @@ final class SiteService implements SiteServiceInterface
     /**
      * Returns random banner's entity
      * 
+     * @param string $categoryId Optional category ID filter
      * @return \Krystal\Stdlib\VirtualEntity
      */
-    public function getRandom()
+    public function getRandom($categoryId = null)
     {
-        return $this->bannerManager->fetchRandom();
+        return $this->bannerManager->fetchRandom($categoryId);
     }
 
     /**
