@@ -15,6 +15,14 @@ namespace Banner\Service;
 interface BannerManagerInterface
 {
     /**
+     * Increments click count by banner ID
+     * 
+     * @param string $id
+     * @return boolean
+     */
+    public function incrementClickCount($id);
+
+    /**
      * Returns prepared paginator's instance
      * 
      * @return \Krystal\Paginate\Paginator

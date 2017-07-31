@@ -14,6 +14,14 @@ namespace Banner\Storage;
 interface BannerMapperInterface
 {
     /**
+     * Increments click count by banner ID
+     * 
+     * @param string $id
+     * @return boolean
+     */
+    public function incrementClickCount($id);
+
+    /**
      * Fetches banner name by its associated id
      * 
      * @param string $id Banner id

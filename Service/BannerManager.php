@@ -71,6 +71,17 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
     }
 
     /**
+     * Increments click count by banner ID
+     * 
+     * @param string $id
+     * @return boolean
+     */
+    public function incrementClickCount($id)
+    {
+        return $this->bannerMapper->incrementClickCount($id);
+    }
+
+    /**
      * Tracks activity
      * 
      * @param string $message
@@ -112,7 +123,8 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
             ->setName($banner['name'], VirtualEntity::FILTER_HTML)
             ->setLink($banner['link'], VirtualEntity::FILTER_HTML)
             ->setFile($banner['file'], VirtualEntity::FILTER_HTML)
-            ->setUrlPath($this->urlPathGenerator->getPath($entity->getId(), $entity->getFile()));
+            ->setUrlPath($this->urlPathGenerator->getPath($entity->getId(), $entity->getFile()))
+            ->setTargetUrl(sprintf('/module/banner/target/?%s', http_build_query(array('id' => $entity->getId(), 'url' => $entity->getLink()))));
 
         return $entity;
     }
