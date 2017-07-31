@@ -49,6 +49,11 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
      */
     private $historyManager;
 
+    const EXPIRATION_TYPE_NEVER = 0;
+    const EXPIRATION_TYPE_CLICKS = 1;
+    const EXPIRATION_TYPE_VIEWS = 2;
+    const EXPIRATION_TYPE_DATETIME = 3;
+
     /**
      * State initialization
      * 
@@ -70,6 +75,21 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
         $this->historyManager = $historyManager;
     }
 
+    /**
+     * Returns expiration types
+     * 
+     * @return array
+     */
+    public function getExpirationTypes()
+    {
+        return array(
+            self::EXPIRATION_TYPE_NEVER => 'Never',
+            self::EXPIRATION_TYPE_CLICKS => 'By clicks',
+            self::EXPIRATION_TYPE_VIEWS => 'By views',
+            self::EXPIRATION_TYPE_DATETIME => 'By expiration time'
+        );
+    }
+    
     /**
      * Increments view count by banner ID
      * 
@@ -140,6 +160,7 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
             ->setMaxClickCount($banner['max_clicks'], VirtualEntity::FILTER_INT)
             ->setDatetime($banner['datetime'])
             ->setMaxDatetime($banner['max_datetime'])
+            ->setExpirationType($banner['expiration_type'], VirtualEntity::FILTER_INT)
             ->setUrlPath($this->urlPathGenerator->getPath($entity->getId(), $entity->getFile()))
             ->setTargetUrl(sprintf('/module/banner/target/?%s', http_build_query(array('id' => $entity->getId(), 'url' => $entity->getLink()))));
 

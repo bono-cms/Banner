@@ -15,6 +15,13 @@ namespace Banner\Service;
 interface BannerManagerInterface
 {
     /**
+     * Returns expiration types
+     * 
+     * @return array
+     */
+    public function getExpirationTypes();
+
+    /**
      * Increments view count by banner ID
      * 
      * @param string $id

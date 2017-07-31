@@ -64,6 +64,7 @@ final class Banner extends AbstractController
 
         return $this->view->render('banner.form', array(
             'banner' => $banner,
+            'expirationTypes' => $this->getModuleService('bannerManager')->getExpirationTypes(),
             'categories' => $this->getModuleService('categoryManager')->fetchList()
         ));
     }

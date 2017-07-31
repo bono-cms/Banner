@@ -32,6 +32,13 @@ defined('KRYSTAL') or die;
 			</div>
 		</div>
 
+        <div class="form-group">
+			<label class="col-lg-2 control-label"><?php $this->show('Expiration type'); ?></label>
+			<div class="col-lg-10">
+                <?php echo Element::select('banner[expiration_type]', $this->translateArray($expirationTypes), $banner->getExpirationType(), array('class' => 'form-control')); ?>
+			</div>
+		</div>
+
 		<div class="form-group">
 			<label class="col-lg-2 control-label"><?php $this->show('Maximal allowed clicks'); ?></label>
 			<div class="col-lg-10">

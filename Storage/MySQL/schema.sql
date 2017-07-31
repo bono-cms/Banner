@@ -13,7 +13,8 @@ CREATE TABLE `bono_module_banner` (
     `views` INT DEFAULT 0 COMMENT 'View counter',
     `max_views` INT DEFAULT 0 COMMENT 'Maximal allowed views',
     `datetime` TIMESTAMP COMMENT 'Uploading date and time',
-    `max_datetime` TIMESTAMP COMMENT 'Ending date and time'
+    `max_datetime` TIMESTAMP COMMENT 'Ending date and time',
+    `expiration_type` SMALLINT(1) COMMENT 'Expiration method. 0 - Never, 1 - clicks, 2 - views, 3 - datetime'
 	
 ) DEFAULT CHARSET = UTF8;
 
