@@ -81,6 +81,7 @@
                 <tr>
                     <th class="text-center"><?php $this->show('#'); ?></th>
                     <th class="text-center"><?php $this->show('Name'); ?></th>
+                    <th class="text-center"><?php $this->show('Banners count'); ?></th>
                     <th class="text-center"><?php $this->show('Actions'); ?></th>
                 </tr>
             </thead>
@@ -93,6 +94,7 @@
                     <td>
                         <a href="<?php echo $this->url('Banner:Admin:Banner@categoryAction', $category->getId()); ?>"><?php echo $category->getName(); ?></a>
                     </td>
+                    <td class="text-center"><?php echo $category->getBannersCount(); ?></td>
                     <td class="text-center">
                         <a data-button="edit" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Edit this category'); ?>" href="<?php echo $this->url('Banner:Admin:Category@editAction', $category->getId()); ?>"><i class="glyphicon glyphicon-pencil"></i></a>
                         <a data-button="delete" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Remove this category'); ?>" data-url="<?php echo $this->url('Banner:Admin:Category@deleteAction', $category->getId()); ?>" href="#"><i class="glyphicon glyphicon-remove"></i></a>
