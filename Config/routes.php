@@ -10,6 +10,10 @@
  */
 
 return array(
+    '/module/banner/target/(:var)' => array(
+        'controller' => 'Target@visitAction'
+    ),
+    
     '/%s/module/banner' => array(
         'controller' => 'Admin:Banner@gridAction'
     ),
