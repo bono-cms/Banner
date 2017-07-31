@@ -71,6 +71,17 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
     }
 
     /**
+     * Increments view count by banner ID
+     * 
+     * @param string $id
+     * @return boolean
+     */
+    public function incrementViewCount($id)
+    {
+        return $this->bannerMapper->incrementViewCount($id);
+    }
+
+    /**
      * Increments click count by banner ID
      * 
      * @param string $id

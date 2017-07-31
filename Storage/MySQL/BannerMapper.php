@@ -25,6 +25,17 @@ final class BannerMapper extends AbstractMapper implements BannerMapperInterface
     }
 
     /**
+     * Increments view count by banner ID
+     * 
+     * @param string $id
+     * @return boolean
+     */
+    public function incrementViewCount($id)
+    {
+        return $this->incrementColumnByPk($id, 'views');
+    }
+
+    /**
      * Increments click count by banner ID
      * 
      * @param string $id

@@ -14,6 +14,14 @@ namespace Banner\Storage;
 interface BannerMapperInterface
 {
     /**
+     * Increments view count by banner ID
+     * 
+     * @param string $id
+     * @return boolean
+     */
+    public function incrementViewCount($id);
+
+    /**
      * Increments click count by banner ID
      * 
      * @param string $id

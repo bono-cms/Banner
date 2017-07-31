@@ -15,6 +15,14 @@ namespace Banner\Service;
 interface BannerManagerInterface
 {
     /**
+     * Increments view count by banner ID
+     * 
+     * @param string $id
+     * @return boolean
+     */
+    public function incrementViewCount($id);
+
+    /**
      * Increments click count by banner ID
      * 
      * @param string $id
