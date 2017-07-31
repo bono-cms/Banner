@@ -14,6 +14,13 @@ namespace Banner\Service;
 interface SiteServiceInterface
 {
     /**
+     * Fetch all banners from available categories in random order
+     * 
+     * @return array
+     */
+    public function getAll();
+
+    /**
      * Returns random banner's entity
      * 
      * @param string $categoryId Optional category ID filter

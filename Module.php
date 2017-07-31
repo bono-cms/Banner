@@ -28,10 +28,14 @@ final class Module extends AbstractCmsModule
         $dirBag = new DirectoryBag($this->appConfig->getModuleUploadsDir('banner'));
         $pathGenerator = new UrlPathGenerator('/data/uploads/module/banner');
 
-        $bannerManager = new BannerManager($this->getMapper('/Banner/Storage/MySQL/BannerMapper'), $dirBag, $pathGenerator, $this->getHistoryManager());
-        $categoryManager = new CategoryManager($this->getMapper('/Banner/Storage/MySQL/CategoryMapper'));
+        // Mappers
+        $bannerMapper = $this->getMapper('/Banner/Storage/MySQL/BannerMapper');
+        $categoryMapper = $this->getMapper('/Banner/Storage/MySQL/CategoryMapper');
 
-        $siteService = new SiteService($bannerManager);
+        $bannerManager = new BannerManager($bannerMapper, $dirBag, $pathGenerator, $this->getHistoryManager());
+        $categoryManager = new CategoryManager($categoryMapper);
+
+        $siteService = new SiteService($bannerManager, $categoryMapper);
 
         return array(
             'bannerManager' => $bannerManager,

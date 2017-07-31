@@ -11,6 +11,8 @@
 
 namespace Banner\Service;
 
+use Banner\Storage\CategoryMapperInterface;
+
 final class SiteService implements SiteServiceInterface
 {
     /**
@@ -21,14 +23,39 @@ final class SiteService implements SiteServiceInterface
     private $bannerManager;
 
     /**
+     * Any compliant category mapper
+     * 
+     * @var \Banner\Storage\CategoryMapperInterface
+     */
+    private $categoryMapper;
+
+    /**
      * State initialization
      * 
      * @param \Banner\Service\BannerManagerInterface $bannerManager
+     * @param \Banner\Storage\CategoryMapperInterface $categoryMapper
      * @return void
      */
-    public function __construct(BannerManagerInterface $bannerManager)
+    public function __construct(BannerManagerInterface $bannerManager, CategoryMapperInterface $categoryMapper)
     {
         $this->bannerManager = $bannerManager;
+        $this->categoryMapper = $categoryMapper;
+    }
+
+    /**
+     * Fetch all banners from available categories in random order
+     * 
+     * @return array
+     */
+    public function getAll()
+    {
+        $banners = array();
+
+        foreach ($this->categoryMapper->fetchAll(false) as $category) {
+            $banners[] = $this->getRandom($category['id']);
+        }
+
+        return $banners;
     }
 
     /**
