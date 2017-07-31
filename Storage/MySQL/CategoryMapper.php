@@ -28,24 +28,32 @@ final class CategoryMapper extends AbstractMapper implements CategoryMapperInter
     /**
      * Fetch all categories
      * 
+     * @param boolean $withCount Whether fetch virtual count field as well
      * @return array
      */
-    public function fetchAll()
+    public function fetchAll($withCount)
     {
+        // Columns to be selected
         $columns = array(
             self::getFullColumnName('id'),
             self::getFullColumnName('name')
         );
 
-        return $this->db->select($columns)
+        if ($withCount == true) {
+            $db = $this->db->select($columns)
                         ->count(BannerMapper::getFullColumnName('id'), 'banners_count')
                         ->from(BannerMapper::getTableName())
                         ->rightJoin(self::getTableName())
                         ->on()
                         ->equals(self::getFullColumnName('id'), new RawSqlFragment(BannerMapper::getFullColumnName('category_id')))
-                        ->groupBy(self::getFullColumnName('id'))
-                        ->orderBy(self::getFullColumnName('id'))
-                        ->desc()
-                        ->queryAll();
+                        ->groupBy(self::getFullColumnName('id'));
+        } else {
+            $db = $this->db->select($columns)
+                           ->from(self::getTableName());
+        }
+
+        return $db->orderBy(self::getFullColumnName('id'))
+                  ->desc()
+                  ->queryAll();
     }
 }

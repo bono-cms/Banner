@@ -110,7 +110,7 @@ final class CategoryManager extends AbstractManager implements CategoryManagerIn
      */
     public function fetchList()
     {
-        return ArrayUtils::arrayList($this->categoryMapper->fetchAll(), 'id', 'name');
+        return ArrayUtils::arrayList($this->categoryMapper->fetchAll(false), 'id', 'name');
     }
 
     /**
@@ -120,6 +120,6 @@ final class CategoryManager extends AbstractManager implements CategoryManagerIn
      */
     public function fetchAll()
     {
-        return $this->prepareResults($this->categoryMapper->fetchAll());
+        return $this->prepareResults($this->categoryMapper->fetchAll(true));
     }
 }

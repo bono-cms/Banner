@@ -16,7 +16,8 @@ interface CategoryMapperInterface
     /**
      * Fetch all categories
      * 
+     * @param boolean $withCount Whether fetch virtual count field as well
      * @return array
      */
-    public function fetchAll();
+    public function fetchAll($withCount);
 }
