@@ -13,6 +13,7 @@ namespace Banner\Storage\MySQL;
 
 use Cms\Storage\MySQL\AbstractMapper;
 use Banner\Storage\BannerMapperInterface;
+use Krystal\Db\Sql\RawSqlFragment;
 
 final class BannerMapper extends AbstractMapper implements BannerMapperInterface
 {
@@ -76,6 +77,9 @@ final class BannerMapper extends AbstractMapper implements BannerMapperInterface
      */
     public function insert(array $input)
     {
+        // Append date
+        $input['datetime'] = new RawSqlFragment('NOW()');
+
         return $this->persist($this->getWithLang($input));
     }
 

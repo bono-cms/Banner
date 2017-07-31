@@ -136,6 +136,7 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
             ->setFile($banner['file'], VirtualEntity::FILTER_HTML)
             ->setViewCount($banner['views'], VirtualEntity::FILTER_INT)
             ->setClickCount($banner['clicks'], VirtualEntity::FILTER_INT)
+            ->setDatetime($banner['datetime'])
             ->setUrlPath($this->urlPathGenerator->getPath($entity->getId(), $entity->getFile()))
             ->setTargetUrl(sprintf('/module/banner/target/?%s', http_build_query(array('id' => $entity->getId(), 'url' => $entity->getLink()))));
 
