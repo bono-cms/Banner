@@ -14,7 +14,6 @@ namespace Banner\Service;
 use Cms\Service\AbstractManager;
 use Cms\Service\HistoryManagerInterface;
 use Banner\Storage\BannerMapperInterface;
-use Krystal\Stdlib\VirtualEntity;
 use Krystal\Security\Filter;
 use Krystal\Http\FileTransfer\DirectoryBagInterface;
 use Krystal\Http\FileTransfer\UrlPathGeneratorInterface;
@@ -149,18 +148,18 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
      */
     protected function toEntity(array $banner)
     {
-        $entity = new VirtualEntity();
-        $entity->setId($banner['id'], VirtualEntity::FILTER_INT)
-            ->setName($banner['name'], VirtualEntity::FILTER_HTML)
-            ->setLink($banner['link'], VirtualEntity::FILTER_HTML)
-            ->setFile($banner['file'], VirtualEntity::FILTER_HTML)
-            ->setViewCount($banner['views'], VirtualEntity::FILTER_INT)
-            ->setMaxViewCount($banner['max_views'], VirtualEntity::FILTER_INT)
-            ->setClickCount($banner['clicks'], VirtualEntity::FILTER_INT)
-            ->setMaxClickCount($banner['max_clicks'], VirtualEntity::FILTER_INT)
+        $entity = new BannerEntity();
+        $entity->setId($banner['id'], BannerEntity::FILTER_INT)
+            ->setName($banner['name'], BannerEntity::FILTER_HTML)
+            ->setLink($banner['link'], BannerEntity::FILTER_HTML)
+            ->setFile($banner['file'], BannerEntity::FILTER_HTML)
+            ->setViewCount($banner['views'], BannerEntity::FILTER_INT)
+            ->setMaxViewCount($banner['max_views'], BannerEntity::FILTER_INT)
+            ->setClickCount($banner['clicks'], BannerEntity::FILTER_INT)
+            ->setMaxClickCount($banner['max_clicks'], BannerEntity::FILTER_INT)
             ->setDatetime($banner['datetime'])
             ->setMaxDatetime($banner['max_datetime'])
-            ->setExpirationType($banner['expiration_type'], VirtualEntity::FILTER_INT)
+            ->setExpirationType($banner['expiration_type'], BannerEntity::FILTER_INT)
             ->setUrlPath($this->urlPathGenerator->getPath($entity->getId(), $entity->getFile()))
             ->setTargetUrl(sprintf('/module/banner/target/?%s', http_build_query(array('id' => $entity->getId(), 'url' => $entity->getLink()))));
 
