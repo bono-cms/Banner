@@ -36,6 +36,7 @@
                                 <?php endif; ?>
                             </th>
                             <th class="text-center"><?php $this->show('#'); ?></th>
+                            <th class="text-center"><?php $this->show('Preview'); ?></th>
                             <th class="text-center"><?php $this->show('Name'); ?></th>
                             <th class="text-center"><?php $this->show('Date and time'); ?></th>
                             <th class="text-center"><?php $this->show('Actions'); ?></th>
@@ -50,6 +51,15 @@
                                 <input type="checkbox" name="toDelete[<?php echo $banner->getId(); ?>]" />
                             </td>
                             <td class="text-center text-muted"><?php echo $banner->getId(); ?></td>
+                            <td class="text-center">
+                                <?php if ($banner->isImage()): ?>
+                                <img src="<?php echo $banner->getUrlPath(); ?>" class="img-responsive center-block" />
+                                <?php elseif ($banner->isFlash()): ?>
+                                <object width="400" height="400" data="<?php echo $banner->getUrlPath(); ?>"></object>
+                                <?php else: ?>
+                                <!-- Unknown type -->
+                                <?php endif; ?>
+                            </td>
                             <td><?php echo $banner->getName(); ?></td>
                             <td class="text-center"><?php echo $banner->getDatetime(); ?></td>
                             <td class="text-center">
