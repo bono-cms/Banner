@@ -77,16 +77,23 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
     /**
      * Returns expiration types
      * 
+     * @param integer $filter Optional filtering key
      * @return array
      */
-    public function getExpirationTypes()
+    public function getExpirationTypes($filter = null)
     {
-        return array(
+        $types = array(
             self::EXPIRATION_TYPE_NEVER => 'Never',
             self::EXPIRATION_TYPE_CLICKS => 'By clicks',
             self::EXPIRATION_TYPE_VIEWS => 'By views',
             self::EXPIRATION_TYPE_DATETIME => 'By expiration time'
         );
+
+        if ($filter !== null) {
+            return $types[$filter];
+        }
+
+        return $types;
     }
     
     /**
@@ -160,6 +167,7 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
             ->setDatetime($banner['datetime'])
             ->setMaxDatetime($banner['max_datetime'])
             ->setExpirationType($banner['expiration_type'], BannerEntity::FILTER_INT)
+            ->setExpirationTypeText($this->getExpirationTypes($entity->getExpirationType()))
             ->setUrlPath($this->urlPathGenerator->getPath($entity->getId(), $entity->getFile()))
             ->setTargetUrl(sprintf('/module/banner/target/?%s', http_build_query(array('id' => $entity->getId(), 'url' => $entity->getLink()))));
 

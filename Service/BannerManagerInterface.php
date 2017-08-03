@@ -17,9 +17,10 @@ interface BannerManagerInterface
     /**
      * Returns expiration types
      * 
+     * @param integer $filter Optional filtering key
      * @return array
      */
-    public function getExpirationTypes();
+    public function getExpirationTypes($filter = null);
 
     /**
      * Increments view count by banner ID
