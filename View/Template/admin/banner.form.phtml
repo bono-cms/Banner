@@ -1,12 +1,13 @@
 <?php
 
+use Banner\Service\BannerManager;
 use Krystal\Form\Element;
 defined('KRYSTAL') or die;
 
 ?>
 
-<form data-group="banner">
-	<div class="well">
+<form data-group="banner" novalidate>
+    <div class="well">
 
         <?php echo Element::hidden('banner[id]', $banner->getId()); ?>
         <?php echo Element::hidden('banner[file]', $banner->getFile()); ?>
@@ -35,25 +36,27 @@ defined('KRYSTAL') or die;
         <div class="form-group">
 			<label class="col-lg-2 control-label"><?php $this->show('Expiration type'); ?></label>
 			<div class="col-lg-10">
-                <?php echo Element::select('banner[expiration_type]', $this->translateArray($expirationTypes), $banner->getExpirationType(), array('class' => 'form-control')); ?>
+                <?php echo Element::select('banner[expiration_type]', $this->translateArray($expirationTypes), $banner->getExpirationType(), array('class' => 'form-control', 'data-plugin' => 'group'), false, function($key, $value){
+                    return array('data-attached-entity' => $key);
+                }); ?>
 			</div>
 		</div>
 
-		<div class="form-group">
+        <div class="form-group" data-entity-group="<?php echo BannerManager::EXPIRATION_TYPE_CLICKS; ?>">
 			<label class="col-lg-2 control-label"><?php $this->show('Maximal allowed clicks'); ?></label>
 			<div class="col-lg-10">
                 <?php echo Element::number('banner[max_clicks]', $banner->getMaxClickCount(), array('min' => 1, 'class' => 'form-control', 'placeholder' => $this->translate('Maximal allowed clicks before this banner is hidden automatically'))); ?>
 			</div>
 		</div>
 
-        <div class="form-group">
+        <div class="form-group" data-entity-group="<?php echo BannerManager::EXPIRATION_TYPE_VIEWS; ?>">
 			<label class="col-lg-2 control-label"><?php $this->show('Maximal allowed views'); ?></label>
 			<div class="col-lg-10">
                 <?php echo Element::number('banner[max_views]', $banner->getMaxViewCount(), array('min' => 1, 'class' => 'form-control', 'placeholder' => $this->translate('Maximal allowed views before this banner is hidden automatically'))); ?>
 			</div>
 		</div>
 
-        <div class="form-group">
+        <div class="form-group" data-entity-group="<?php echo BannerManager::EXPIRATION_TYPE_DATETIME; ?>">
             <label class="col-lg-2 control-label"><?php $this->show('Maximal allowed date'); ?></label>
 			<div class="col-lg-10">
                 <?php echo Element::text('banner[max_datetime]', $banner->getMaxDatetime(), array('class' => 'form-control', 'placeholder' => $this->translate('Expiration date of this banner'))); ?>
