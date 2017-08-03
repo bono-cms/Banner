@@ -54,10 +54,6 @@ final class Banner extends AbstractController
      */
     private function createForm(VirtualEntity $banner, $title)
     {
-        // Load view plugins
-        $this->view->getPluginBag()
-                   ->appendScript('@Banner/admin/banner.form.js');
-
         // Append a breadcrumb
         $this->view->getBreadcrumbBag()->addOne('Banner', 'Banner:Admin:Banner@gridAction')
                                        ->addOne($title);
