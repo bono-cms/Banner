@@ -225,6 +225,7 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
             ->setName($banner['name'], BannerEntity::FILTER_HTML)
             ->setLink($banner['link'], BannerEntity::FILTER_HTML)
             ->setFile($banner['file'], BannerEntity::FILTER_HTML)
+            ->setCategoryId($banner['category_id'], BannerEntity::FILTER_INT)
             ->setViewCount($banner['views'], BannerEntity::FILTER_INT)
             ->setMaxViewCount($banner['max_views'], BannerEntity::FILTER_INT)
             ->setClickCount($banner['clicks'], BannerEntity::FILTER_INT)
