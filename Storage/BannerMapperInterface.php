@@ -14,6 +14,13 @@ namespace Banner\Storage;
 interface BannerMapperInterface
 {
     /**
+     * Returns current time
+     * 
+     * @return string
+     */
+    public function getCurrentTime();
+
+    /**
      * Increments view count by banner ID
      * 
      * @param string $id

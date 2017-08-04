@@ -26,6 +26,18 @@ final class BannerMapper extends AbstractMapper implements BannerMapperInterface
     }
 
     /**
+     * Returns current time
+     * 
+     * @return string
+     */
+    public function getCurrentTime()
+    {
+        return $this->db->select()
+                        ->now()
+                        ->queryScalar();
+    }
+
+    /**
      * Increments view count by banner ID
      * 
      * @param string $id
