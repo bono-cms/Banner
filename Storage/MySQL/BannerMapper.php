@@ -103,10 +103,14 @@ final class BannerMapper extends AbstractMapper implements BannerMapperInterface
             $db->andWhereEquals('category_id', $categoryId);
         }
 
-        return $db->orderBy('id')
-                  ->desc()
-                  ->paginate($page, $itemsPerPage)
-                  ->queryAll();
+        $db->orderBy('id')
+           ->desc();
+
+        if ($page !== null && $itemsPerPage !== null) {
+            $db->paginate($page, $itemsPerPage);
+        }
+
+        return $db->queryAll();
     }
 
     /**
