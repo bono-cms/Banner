@@ -59,17 +59,19 @@ interface BannerMapperInterface
      * @param integer $page Current page
      * @param string $itemsPerPage Per page count
      * @param string $categoryId Optional category ID filter
+     * @param array $validIds Optional collection of valid IDs to restrict output
      * @return array
      */
-    public function fetchAllByPage($page, $itemsPerPage, $categoryId);
+    public function fetchAllByPage($page, $itemsPerPage, $categoryId, array $validIds = array());
 
     /**
      * Fetches random banner
      * 
      * @param string $categoryId Optional category ID filter
+     * @param array $validIds Optional collection of valid IDs to restrict output
      * @return array
      */
-    public function fetchRandom($categoryId);
+    public function fetchRandom($categoryId, array $validIds = array());
 
     /**
      * Fetches banner's data by its associated id

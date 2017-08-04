@@ -89,9 +89,10 @@ final class BannerMapper extends AbstractMapper implements BannerMapperInterface
      * @param integer $page Current page
      * @param string $itemsPerPage Per page count
      * @param string $categoryId Optional category ID filter
+     * @param array $validIds Optional collection of valid IDs to restrict output
      * @return array
      */
-    public function fetchAllByPage($page, $itemsPerPage, $categoryId)
+    public function fetchAllByPage($page, $itemsPerPage, $categoryId, array $validIds = array())
     {
         // Initial select
         $db = $this->db->select('*')
@@ -101,6 +102,11 @@ final class BannerMapper extends AbstractMapper implements BannerMapperInterface
         // Optional category ID filter
         if ($categoryId !== null) {
             $db->andWhereEquals('category_id', $categoryId);
+        }
+
+        // If valid IDs are defined, then restrict search by them
+        if (!empty($validIds)) {
+            $db->andWhereIn('id', $validIds);
         }
 
         $db->orderBy('id')
@@ -117,17 +123,23 @@ final class BannerMapper extends AbstractMapper implements BannerMapperInterface
      * Fetches random banner
      * 
      * @param string $categoryId Optional category ID filter
+     * @param array $validIds Optional collection of valid IDs to restrict output
      * @return array
      */
-    public function fetchRandom($categoryId)
+    public function fetchRandom($categoryId, array $validIds = array())
     {
         $db = $this->db->select('*')
                        ->from(static::getTableName())
                        ->whereEquals('lang_id', $this->getLangId());
-                        
+
         // Optional category ID filter
         if ($categoryId !== null) {
             $db->andWhereEquals('category_id', $categoryId);
+        }
+
+        // If valid IDs are defined, then restrict search by them
+        if (!empty($validIds)) {
+            $db->andWhereIn('id', $validIds);
         }
 
         return $db->orderBy()
