@@ -54,6 +54,9 @@ final class Banner extends AbstractController
      */
     private function createForm(VirtualEntity $banner, $title)
     {
+        $this->view->getPluginBag()
+                   ->load('datetimepicker');
+
         // Append a breadcrumb
         $this->view->getBreadcrumbBag()->addOne('Banner', 'Banner:Admin:Banner@gridAction')
                                        ->addOne($title);

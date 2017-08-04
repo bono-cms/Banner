@@ -59,7 +59,13 @@ defined('KRYSTAL') or die;
         <div class="form-group" data-entity-group="<?php echo BannerManager::EXPIRATION_TYPE_DATETIME; ?>">
             <label class="col-lg-2 control-label"><?php $this->show('Maximal allowed date'); ?></label>
 			<div class="col-lg-10">
-                <?php echo Element::text('banner[max_datetime]', $banner->getMaxDatetime(), array('class' => 'form-control', 'placeholder' => $this->translate('Expiration date of this banner'))); ?>
+                <div class="input-group" data-plugin="datetimepicker">
+                    <?php echo Element::text('banner[max_datetime]', $banner->getMaxDatetime(), array('class' => 'form-control', 'placeholder' => $this->translate('Expiration date of this banner'))); ?>                    
+                    
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
 			</div>
 		</div>
 		
