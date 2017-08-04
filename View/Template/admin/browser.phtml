@@ -40,6 +40,7 @@
                             <th class="text-center"><?php $this->show('Name'); ?></th>
                             <th class="text-center"><?php $this->show('Date and time of creation'); ?></th>
                             <th class="text-center"><?php $this->show('Click count'); ?></th>
+                            <th class="text-center"><?php $this->show('Views'); ?></th>
                             <th class="text-center"><?php $this->show('Expiration type'); ?></th>
                             <th class="text-center"><?php $this->show('Actions'); ?></th>
                         </tr>
@@ -65,6 +66,7 @@
                             <td><?php echo $banner->getName(); ?></td>
                             <td class="text-center"><?php echo $banner->getDatetime(); ?></td>
                             <td class="text-center"><?php echo $banner->getClickCount(); ?></td>
+                            <td class="text-center"><?php echo $banner->getViewCount(); ?></td>
                             <td class="text-center"><?php $this->show($banner->getExpirationTypeText()); ?></td>
                             <td class="text-center">
                                 <a data-button="edit" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Edit this banner'); ?>" href="<?php echo $this->url('Banner:Admin:Banner@editAction', $banner->getId()); ?>"><i class="glyphicon glyphicon-pencil"></i></a>
