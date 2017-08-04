@@ -75,6 +75,71 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
     }
 
     /**
+     * Process and keep only valid banners
+     * 
+     * @param array $banners
+     * @return array
+     */
+    private function getActiveIds()
+    {
+        static $ids = null;
+
+        if ($ids === null) {
+            $banners = $this->bannerMapper->fetchAllByPage(null, null, null);
+            $ids = $this->processBanners($banners);
+        }
+
+        return $ids;
+    }
+
+    /**
+     * Process and keep only valid banners
+     * 
+     * @param array $banners
+     * @return array
+     */
+    private function processBanners(array $banners)
+    {
+        $output = array();
+
+        foreach ($banners as $banner) {
+            switch ((int) $banner['expiration_type']) {
+                // Never
+                case self::EXPIRATION_TYPE_NEVER:
+                    $output[] = $banner['id'];
+                break;
+
+                // Clicks
+                case self::EXPIRATION_TYPE_CLICKS:
+                    if ($banner['max_clicks'] < $banner['clicks']) {
+                        $output[] = $banner['id'];
+                    }
+                break;
+
+                // Views
+                case self::EXPIRATION_TYPE_VIEWS:
+                    if ($banner['max_views'] < $banner['views']) {
+                        $output[] = $banner['id'];
+                    }
+                break;
+
+                // Datetime
+                case self::EXPIRATION_TYPE_DATETIME:
+                    $diff = strtotime($banner['max_datetime']) - strtotime($this->bannerMapper->getCurrentTime());
+
+                    // If not expired then, append
+                    if ($diff > 0) {
+                        $output[] = $banner['id'];
+                    }
+
+                break;
+            }
+        }
+
+        return $output;
+    }
+
+    /**
      * Returns expiration types
      * 
      * @param integer $filter Optional filtering key
@@ -195,7 +260,7 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
      */
     public function fetchRandom($categoryId = null)
     {
-        return $this->prepareResult($this->bannerMapper->fetchRandom($categoryId));
+        return $this->prepareResult($this->bannerMapper->fetchRandom($categoryId, $this->getActiveIds()));
     }
 
     /**
