@@ -232,7 +232,8 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
             ->setExpirationType($banner['expiration_type'], BannerEntity::FILTER_INT)
             ->setExpirationTypeText($this->getExpirationTypes($entity->getExpirationType()))
             ->setUrlPath($this->urlPathGenerator->getPath($entity->getId(), $entity->getFile()))
-            ->setTargetUrl(sprintf('/module/banner/target/?%s', http_build_query(array('id' => $entity->getId(), 'url' => $entity->getLink()))));
+            ->setTargetUrl(sprintf('/module/banner/target/?%s', http_build_query(array('id' => $entity->getId(), 'url' => $entity->getLink()))))
+            ->setExpired(!$this->isNonExpired($banner));
 
         return $entity;
     }
