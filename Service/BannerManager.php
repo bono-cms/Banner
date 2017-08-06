@@ -111,14 +111,14 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
 
                 // Clicks
                 case self::EXPIRATION_TYPE_CLICKS:
-                    if ($banner['max_clicks'] < $banner['clicks']) {
+                    if ($banner['max_clicks'] > $banner['clicks']) {
                         $output[] = $banner['id'];
                     }
                 break;
 
                 // Views
                 case self::EXPIRATION_TYPE_VIEWS:
-                    if ($banner['max_views'] < $banner['views']) {
+                    if ($banner['max_views'] > $banner['views']) {
                         $output[] = $banner['id'];
                     }
                 break;
