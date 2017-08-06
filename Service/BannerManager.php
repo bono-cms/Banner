@@ -93,6 +93,31 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
     }
 
     /**
+     * Validates whether banner is not expired
+     * 
+     * @param array $banner Banner data
+     * @return boolean
+     */
+    private function isNonExpired(array $banner)
+    {
+        $type = (int) $banner['expiration_type'];
+
+        static $time = null;
+
+        if ($time == null) {
+            $time = $this->bannerMapper->getCurrentTime();
+        }
+
+        // Expiration conditions
+        $never = $type == self::EXPIRATION_TYPE_NEVER;
+        $byClicks = $type == self::EXPIRATION_TYPE_CLICKS && $banner['max_clicks'] > $banner['clicks'];
+        $byViews = $type == self::EXPIRATION_TYPE_VIEWS && $banner['max_views'] > $banner['views'];
+        $byDatetime = $type == self::EXPIRATION_TYPE_DATETIME && strtotime($banner['max_datetime']) - strtotime($time) > 0;
+
+        return $never || $byClicks || $byViews || $byDatetime;
+    }
+
+    /**
      * Process and keep only valid banners
      * 
      * @param array $banners
@@ -103,36 +128,8 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
         $output = array();
 
         foreach ($banners as $banner) {
-            switch ((int) $banner['expiration_type']) {
-                // Never
-                case self::EXPIRATION_TYPE_NEVER:
-                    $output[] = $banner['id'];
-                break;
-
-                // Clicks
-                case self::EXPIRATION_TYPE_CLICKS:
-                    if ($banner['max_clicks'] > $banner['clicks']) {
-                        $output[] = $banner['id'];
-                    }
-                break;
-
-                // Views
-                case self::EXPIRATION_TYPE_VIEWS:
-                    if ($banner['max_views'] > $banner['views']) {
-                        $output[] = $banner['id'];
-                    }
-                break;
-
-                // Datetime
-                case self::EXPIRATION_TYPE_DATETIME:
-                    $diff = strtotime($banner['max_datetime']) - strtotime($this->bannerMapper->getCurrentTime());
-
-                    // If not expired then, append
-                    if ($diff > 0) {
-                        $output[] = $banner['id'];
-                    }
-
-                break;
+            if ($this->isNonExpired($banner)) {
+                $output[] = $banner['id'];
             }
         }
 
