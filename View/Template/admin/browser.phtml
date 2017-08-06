@@ -49,7 +49,7 @@
                     <?php if (!empty($banners)): ?>
                     <tbody>
                         <?php foreach ($banners as $banner): ?>
-                        <tr>
+                        <tr class="<?php echo $banner->getExpired() ? 'danger' : 'success'; ?>">
                             <td class="text-center">
                                 <input type="checkbox" name="toDelete[<?php echo $banner->getId(); ?>]" />
                             </td>
