@@ -35,24 +35,24 @@ final class CategoryMapper extends AbstractMapper implements CategoryMapperInter
     {
         // Columns to be selected
         $columns = array(
-            self::getFullColumnName('id'),
-            self::getFullColumnName('name')
+            self::column('id'),
+            self::column('name')
         );
 
         if ($withCount == true) {
             $db = $this->db->select($columns)
-                        ->count(BannerMapper::getFullColumnName('id'), 'banners_count')
+                        ->count(BannerMapper::column('id'), 'banners_count')
                         ->from(BannerMapper::getTableName())
                         ->rightJoin(self::getTableName())
                         ->on()
-                        ->equals(self::getFullColumnName('id'), new RawSqlFragment(BannerMapper::getFullColumnName('category_id')))
-                        ->groupBy(self::getFullColumnName('id'));
+                        ->equals(self::column('id'), new RawSqlFragment(BannerMapper::column('category_id')))
+                        ->groupBy(self::column('id'));
         } else {
             $db = $this->db->select($columns)
                            ->from(self::getTableName());
         }
 
-        return $db->orderBy(self::getFullColumnName('id'))
+        return $db->orderBy(self::column('id'))
                   ->desc()
                   ->queryAll();
     }
