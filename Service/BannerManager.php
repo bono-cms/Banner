@@ -274,25 +274,6 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
     }
 
     /**
-     * Prepares an input before sending it to a mapper
-     * 
-     * @param array $input Raw input data
-     * @return array
-     */
-    private function prepareInput(array $input)
-    {
-        $file =& $input['files']['banner'];
-        $data =& $input['data']['banner'];
-
-        if (!empty($file)) {
-            $this->filterFileInput($file);
-            $data['file'] = $file[0]->getName();
-        }
-
-        return $input;
-    }
-
-    /**
      * Adds a banner
      * 
      * @param array $input Raw input data
@@ -300,8 +281,6 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
      */
     public function add(array $form)
     {
-        $form = $this->prepareInput($form);
-
         if (!empty($form['files']['banner'])) {
             $data =& $form['data']['banner'];
 
@@ -335,18 +314,14 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
         // If we have a new banner
         if (!empty($input['files']['banner'])) {
             $file = $input['files']['banner'];
-
             // Then we need to remove a previos one
             $this->dirBag->remove($data['id'], $data['file']);
-            
-            // Prepare a file input. Filter its name as well
-            $form = $this->prepareInput($input);
-            
+
             // And finally upload a new one
             $this->dirBag->upload($data['id'], $file);
 
             // Save new name now
-            $data['file'] = $file[0]->getName();
+            $data['file'] = $file->getUniqueName();
         }
 
         // Trace this move
