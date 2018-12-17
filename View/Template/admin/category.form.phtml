@@ -6,7 +6,7 @@ defined('KRYSTAL') or die;
 ?>
 
 <form data-group="category">
-	<div class="well">
+    <div class="well">
         <?php echo Element::hidden('category[id]', $category->getId()); ?>
 
         <div class="form-group">
@@ -17,12 +17,12 @@ defined('KRYSTAL') or die;
 		</div>
 	</div>
 
-	<?php if ($category->getId()): ?>
-	<button data-button="save" data-url="<?php echo $this->url('Banner:Admin:Category@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
+    <?php $this->loadPartial('actions', array(
+        'new' => !$category->getId(),
+        'add' => 'Banner:Admin:Category@addAction',
+        'edit' => 'Banner:Admin:Category@editAction',
+        'save' => 'Banner:Admin:Category@saveAction',
+        'cancel' => 'Banner:Admin:Banner@gridAction'
+    )); ?>
 
-	<?php else: ?>
-	<button data-button="add" data-back-url="<?php echo $this->url('Banner:Admin:Category@editAction', null); ?>" data-url="<?php echo $this->url('Banner:Admin:Category@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add'); ?></button>
-    <?php endif; ?>
-
-    <button data-button="cancel" data-url="<?php echo $this->url('Banner:Admin:Banner@gridAction'); ?>" class="btn btn-default"><i class="glyphicon glyphicon-floppy-remove"></i> <?php $this->show('Cancel'); ?></button>
 </form>
