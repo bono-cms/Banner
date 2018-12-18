@@ -1,4 +1,12 @@
-<?php defined('KRYSTAL') or die; ?>
+<?php
+
+use Krystal\Grid\Grid;
+use Krystal\Form\Element;
+use Cms\View\Icon;
+
+defined('KRYSTAL') or die;
+
+?>
 
 <div class="btn-toolbar">
 	<div class="btn-group">
@@ -27,64 +35,81 @@
 
         <form>
             <div class="table-responsive">
-                <table class="table table-hover table-bordered table-striped table-condensed">
-                    <thead>
-                        <tr>
-                            <th class="text-center">
-                                <?php if (!empty($banners)): ?>
-                                <input type="checkbox" />
-                                <?php endif; ?>
-                            </th>
-                            <th class="text-center"><?php $this->show('#'); ?></th>
-                            <th class="text-center"><?php $this->show('Preview'); ?></th>
-                            <th class="text-center"><?php $this->show('Name'); ?></th>
-                            <th class="text-center"><?php $this->show('Date and time of creation'); ?></th>
-                            <th class="text-center"><?php $this->show('Click count'); ?></th>
-                            <th class="text-center"><?php $this->show('Views'); ?></th>
-                            <th class="text-center"><?php $this->show('Expiration type'); ?></th>
-                            <th class="text-center"><?php $this->show('Actions'); ?></th>
-                        </tr>
-                    </thead>
-                    
-                    <?php if (!empty($banners)): ?>
-                    <tbody>
-                        <?php foreach ($banners as $banner): ?>
-                        <tr class="<?php echo $banner->getExpired() ? 'danger' : 'success'; ?>">
-                            <td class="text-center">
-                                <input type="checkbox" name="toDelete[<?php echo $banner->getId(); ?>]" />
-                            </td>
-                            <td class="text-center text-muted"><?php echo $banner->getId(); ?></td>
-                            <td class="text-center">
-                                <?php if ($banner->isImage()): ?>
-                                <img src="<?php echo $banner->getUrlPath(); ?>" class="img-responsive center-block" />
-                                <?php elseif ($banner->isFlash()): ?>
-                                <object width="400" height="400" data="<?php echo $banner->getUrlPath(); ?>"></object>
-                                <?php else: ?>
-                                <!-- Unknown type -->
-                                <?php endif; ?>
-                            </td>
-                            <td><?php echo $banner->getName(); ?></td>
-                            <td class="text-center"><?php echo $banner->getDatetime(); ?></td>
-                            <td class="text-center"><?php echo $banner->getClickCount(); ?></td>
-                            <td class="text-center"><?php echo $banner->getViewCount(); ?></td>
-                            <td class="text-center"><?php $this->show($banner->getExpirationTypeText()); ?></td>
-                            <td class="text-center">
-                                <a data-button="edit" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Edit this banner'); ?>" href="<?php echo $this->url('Banner:Admin:Banner@editAction', $banner->getId()); ?>"><i class="glyphicon glyphicon-pencil"></i></a>
-                                <a data-button="delete" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Remove this banner'); ?>" data-url="<?php echo $this->url('Banner:Admin:Banner@deleteAction', $banner->getId()); ?>" href="#"><i class="glyphicon glyphicon-remove"></i></a>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
+                <?= Grid::render($banners, array(
+                    'pk' => 'id',
+                    'batch' => true,
+                    'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
+                    'rowAttributes' => array(
+                        'class' => function($banner){
+                            return $banner->getExpired() ? 'danger' : 'success';
+                        }
+                    ),
+
+                    'columns' => array(
+                        array(
+                            'column' => 'url_path',
+                            'label' => 'Preview',
+                            'value' => function($banner){
+                                if ($banner->isImage()) {
+                                    return Element::image($banner->getUrlPath(), array('class' => 'img-responsive center-block'));
+                                } else if ($banner->isFlash()) {
+                                    return Element::object(400, 400, $banner->getUrlPath());
+                                } else {
+                                    // Unknown type
+                                    return null;
+                                }
+                            }
+                        ),
+
+                        array(
+                            'column' => 'name'
+                        ),
+
+                        array(
+                            'column' => 'datetime',
+                            'label' => 'Date and time of creation'
+                        ),
+
+                        array(
+                            'column' => 'click_count',
+                            'label' => 'Click count'
+                        ),
+
+                        array(
+                            'column' => 'view_count',
+                            'label' => 'Views'
+                        ),
                         
-                    </tbody>
-                    <?php endif; ?>
-                </table>
+                        array(
+                            'column' => 'expiration_type_text',
+                            'label' => 'Expiration type',
+                            'translateable' => true
+                        )
+                    ),
+
+                    'actions' => array(
+                        'edit' => function($banner){
+                            return Icon::edit(
+                                $this->url('Banner:Admin:Banner@editAction', $banner->getId()),
+                                $this->translate('Edit this banner')
+                            );
+                        },
+
+                        'remove' => function($banner){
+                            return Icon::remove(
+                                $this->url('Banner:Admin:Banner@deleteAction', $banner->getId()),
+                                $this->translate('Remove this banner')
+                            );
+                        }
+                    )
+
+                ), $this->translator); ?>
                 
                 <?php if (empty($banners)): ?>
                 <div class="center-block">
                     <h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No banners'); ?></h2>
                 </div>
                 <?php endif; ?>
-                
             </div>
         </form>
 
@@ -94,35 +119,50 @@
     <div class="col-lg-12">
         <h2><?php $this->show('Categories'); ?> <small>(<?php echo count($categories); ?>)</small></h2>
 
-        <table class="table table-hover table-bordered table-striped table-condensed">
-            <thead>
-                <tr>
-                    <th class="text-center"><?php $this->show('#'); ?></th>
-                    <th class="text-center"><?php $this->show('Name'); ?></th>
-                    <th class="text-center"><?php $this->show('Banners count'); ?></th>
-                    <th class="text-center"><?php $this->show('Actions'); ?></th>
-                </tr>
-            </thead>
+        <?= Grid::render($categories, array(
+            'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
+            'rowAttributes' => array(
+                'class' => function($row) use ($categoryId){
+                    return $row['id'] == $categoryId ? 'info' : null;
+                }
+            ),
+            'columns' => array(
+                array(
+                    'column' => 'id',
+                    'label' => '#'
+                ),
 
-            <?php if (!empty($categories)): ?>
-            <tbody>
-                <?php foreach ($categories as $category): ?>
-                <tr class="<?php echo $category->getId() == $categoryId ? 'info' : null; ?>">
-                    <td class="text-center text-muted"><?php echo $category->getId(); ?></td>
-                    <td>
-                        <a href="<?php echo $this->url('Banner:Admin:Banner@categoryAction', $category->getId()); ?>"><?php echo $category->getName(); ?></a>
-                    </td>
-                    <td class="text-center"><?php echo $category->getBannersCount(); ?></td>
-                    <td class="text-center">
-                        <a data-button="edit" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Edit this category'); ?>" href="<?php echo $this->url('Banner:Admin:Category@editAction', $category->getId()); ?>"><i class="glyphicon glyphicon-pencil"></i></a>
-                        <a data-button="delete" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Remove this category'); ?>" data-url="<?php echo $this->url('Banner:Admin:Category@deleteAction', $category->getId()); ?>" href="#"><i class="glyphicon glyphicon-remove"></i></a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-            <?php endif; ?>
-        </table>
+                array(
+                    'column' => 'name',
+                    'value' => function($row){
+                        return Element::link($row['name'],  $this->url('Banner:Admin:Banner@categoryAction', $row['id']));
+                    }
+                ),
 
+                array(
+                    'column' => 'banners_count',
+                    'label' => 'Banners count'
+                )
+            ),
+
+            'actions' => array(
+                'edit' => function($row){
+                    return Icon::edit(
+                        $this->url('Banner:Admin:Category@editAction', $row['id']),
+                        $this->translate('Edit this category')
+                    );
+                },
+
+                'remove' => function($row){
+                    return Icon::remove(
+                        $this->url('Banner:Admin:Category@deleteAction', $row['id']),
+                        $this->translate('Remove this category')
+                    );
+                }
+            )
+
+        ), $this->translator); ?>
+        
         <?php if (empty($categories)): ?>
         <div class="center-block">
             <h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No categories'); ?></h2>
