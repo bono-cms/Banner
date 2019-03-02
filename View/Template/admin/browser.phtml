@@ -1,7 +1,7 @@
 <?php
 
-use Krystal\Grid\Grid;
 use Krystal\Form\Element;
+use Krystal\Widget\GridWidget;
 use Cms\View\Icon;
 
 defined('KRYSTAL') or die;
@@ -35,7 +35,7 @@ defined('KRYSTAL') or die;
 
         <form>
             <div class="table-responsive">
-                <?= Grid::render($banners, array(
+                <?= $this->widget(new GridWidget($banners, array(
                     'pk' => 'id',
                     'batch' => true,
                     'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
@@ -102,8 +102,7 @@ defined('KRYSTAL') or die;
                             );
                         }
                     )
-
-                ), $this->translator); ?>
+                ))); ?>
                 
                 <?php if (empty($banners)): ?>
                 <div class="center-block">
@@ -119,7 +118,7 @@ defined('KRYSTAL') or die;
     <div class="col-lg-12">
         <h2><?php $this->show('Categories'); ?> <small>(<?php echo count($categories); ?>)</small></h2>
 
-        <?= Grid::render($categories, array(
+        <?= $this->widget(new GridWidget($categories, array(
             'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
             'rowAttributes' => array(
                 'class' => function($row) use ($categoryId){
@@ -160,9 +159,8 @@ defined('KRYSTAL') or die;
                     );
                 }
             )
+        ))); ?>
 
-        ), $this->translator); ?>
-        
         <?php if (empty($categories)): ?>
         <div class="center-block">
             <h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No categories'); ?></h2>
