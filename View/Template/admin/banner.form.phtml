@@ -6,77 +6,74 @@ defined('KRYSTAL') or die;
 
 ?>
 
-<form data-group="banner" novalidate>
-    <div class="well">
+<form class="card" data-group="banner" novalidate autocomplete="off">
+    <?php echo Element::hidden('banner[id]', $banner->getId()); ?>
+    <?php echo Element::hidden('banner[file]', $banner->getFile()); ?>
+    
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
+        <div class="col-lg-10">
+            <?php echo Element::text('banner[name]', $banner->getName(), array('class' => 'form-control', 'placeholder' => $this->translate('Banner name'))); ?>
+        </div>
+    </div>
 
-        <?php echo Element::hidden('banner[id]', $banner->getId()); ?>
-        <?php echo Element::hidden('banner[file]', $banner->getFile()); ?>
-        
-		<div class="form-group">
-			<label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
-			<div class="col-lg-10">
-                <?php echo Element::text('banner[name]', $banner->getName(), array('class' => 'form-control', 'placeholder' => $this->translate('Banner name'))); ?>
-			</div>
-		</div>
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Category'); ?></label>
+        <div class="col-lg-10">
+            <?php echo Element::select('banner[category_id]', $categories, $banner->getCategoryId(), array('class' => 'form-control')); ?>
+        </div>
+    </div>
 
-		<div class="form-group">
-			<label class="col-lg-2 control-label"><?php $this->show('Category'); ?></label>
-			<div class="col-lg-10">
-                <?php echo Element::select('banner[category_id]', $categories, $banner->getCategoryId(), array('class' => 'form-control')); ?>
-			</div>
-		</div>
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('URL Link'); ?></label>
+        <div class="col-lg-10">
+            <?php echo Element::text('banner[link]', $banner->getLink(), array('class' => 'form-control', 'placeholder' => $this->translate('URL link when clicked'))); ?>
+        </div>
+    </div>
 
-		<div class="form-group">
-			<label class="col-lg-2 control-label"><?php $this->show('URL Link'); ?></label>
-			<div class="col-lg-10">
-                <?php echo Element::text('banner[link]', $banner->getLink(), array('class' => 'form-control', 'placeholder' => $this->translate('URL link when clicked'))); ?>
-			</div>
-		</div>
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Expiration type'); ?></label>
+        <div class="col-lg-10">
+            <?php echo Element::select('banner[expiration_type]', $this->translateArray($expirationTypes), $banner->getExpirationType(), array('class' => 'form-control', 'data-plugin' => 'group'), false, function($key, $value){
+                return array('data-attached-entity' => $key);
+            }); ?>
+        </div>
+    </div>
 
-        <div class="form-group">
-			<label class="col-lg-2 control-label"><?php $this->show('Expiration type'); ?></label>
-			<div class="col-lg-10">
-                <?php echo Element::select('banner[expiration_type]', $this->translateArray($expirationTypes), $banner->getExpirationType(), array('class' => 'form-control', 'data-plugin' => 'group'), false, function($key, $value){
-                    return array('data-attached-entity' => $key);
-                }); ?>
-			</div>
-		</div>
+    <div class="form-group" data-entity-group="<?php echo BannerManager::EXPIRATION_TYPE_CLICKS; ?>">
+        <label class="col-lg-2 control-label"><?php $this->show('Maximal allowed clicks'); ?></label>
+        <div class="col-lg-10">
+            <?php echo Element::number('banner[max_clicks]', $banner->getMaxClickCount(), array('min' => 1, 'class' => 'form-control', 'placeholder' => $this->translate('Maximal allowed clicks before this banner is hidden automatically'))); ?>
+        </div>
+    </div>
 
-        <div class="form-group" data-entity-group="<?php echo BannerManager::EXPIRATION_TYPE_CLICKS; ?>">
-			<label class="col-lg-2 control-label"><?php $this->show('Maximal allowed clicks'); ?></label>
-			<div class="col-lg-10">
-                <?php echo Element::number('banner[max_clicks]', $banner->getMaxClickCount(), array('min' => 1, 'class' => 'form-control', 'placeholder' => $this->translate('Maximal allowed clicks before this banner is hidden automatically'))); ?>
-			</div>
-		</div>
+    <div class="form-group" data-entity-group="<?php echo BannerManager::EXPIRATION_TYPE_VIEWS; ?>">
+        <label class="col-lg-2 control-label"><?php $this->show('Maximal allowed views'); ?></label>
+        <div class="col-lg-10">
+            <?php echo Element::number('banner[max_views]', $banner->getMaxViewCount(), array('min' => 1, 'class' => 'form-control', 'placeholder' => $this->translate('Maximal allowed views before this banner is hidden automatically'))); ?>
+        </div>
+    </div>
 
-        <div class="form-group" data-entity-group="<?php echo BannerManager::EXPIRATION_TYPE_VIEWS; ?>">
-			<label class="col-lg-2 control-label"><?php $this->show('Maximal allowed views'); ?></label>
-			<div class="col-lg-10">
-                <?php echo Element::number('banner[max_views]', $banner->getMaxViewCount(), array('min' => 1, 'class' => 'form-control', 'placeholder' => $this->translate('Maximal allowed views before this banner is hidden automatically'))); ?>
-			</div>
-		</div>
-
-        <div class="form-group" data-entity-group="<?php echo BannerManager::EXPIRATION_TYPE_DATETIME; ?>">
-            <label class="col-lg-2 control-label"><?php $this->show('Maximal allowed date'); ?></label>
-			<div class="col-lg-10">
-                <div class="input-group" data-plugin="datetimepicker">
-                    <?php echo Element::text('banner[max_datetime]', $banner->getMaxDatetime(), array('class' => 'form-control', 'placeholder' => $this->translate('Expiration date of this banner'))); ?>                    
-                    
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-			</div>
-		</div>
-		
-		<div class="form-group">
-			<label class="col-lg-2 control-label"><?php $this->show('File'); ?></label>
-			<div class="col-lg-10">
-                <a class="btn btn-primary" data-button="upload" data-target="[name='banner']" href="#"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Upload a file'); ?></a>
-                <?php echo Element::file('banner', null, array('class' => 'hidden')); ?>
-			</div>
-		</div>
-	</div>
+    <div class="form-group" data-entity-group="<?php echo BannerManager::EXPIRATION_TYPE_DATETIME; ?>">
+        <label class="col-lg-2 control-label"><?php $this->show('Maximal allowed date'); ?></label>
+        <div class="col-lg-10">
+            <div class="input-group" data-plugin="datetimepicker">
+                <?php echo Element::text('banner[max_datetime]', $banner->getMaxDatetime(), array('class' => 'form-control', 'placeholder' => $this->translate('Expiration date of this banner'))); ?>                    
+                
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('File'); ?></label>
+        <div class="col-lg-10">
+            <a class="btn btn-primary" data-button="upload" data-target="[name='banner']" href="#"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Upload a file'); ?></a>
+            <?php echo Element::file('banner', null, array('class' => 'hidden')); ?>
+        </div>
+    </div>
 
     <?php $this->loadPartial('actions', array(
         'new' => !$banner->getId(),

@@ -5,17 +5,15 @@ defined('KRYSTAL') or die;
 
 ?>
 
-<form data-group="category">
-    <div class="well">
-        <?php echo Element::hidden('category[id]', $category->getId()); ?>
+<form class="card" data-group="category" autocomplete="off">
+    <?php echo Element::hidden('category[id]', $category->getId()); ?>
 
-        <div class="form-group">
-			<label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
-			<div class="col-lg-10">
-                <?php echo Element::text('category[name]', $category->getName(), array('class' => 'form-control', 'placeholder' => $this->translate('Banner name'))); ?>
-			</div>
-		</div>
-	</div>
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
+        <div class="col-lg-10">
+            <?php echo Element::text('category[name]', $category->getName(), array('class' => 'form-control', 'placeholder' => $this->translate('Banner name'))); ?>
+        </div>
+    </div>
 
     <?php $this->loadPartial('actions', array(
         'new' => !$category->getId(),
@@ -24,5 +22,4 @@ defined('KRYSTAL') or die;
         'save' => 'Banner:Admin:Category@saveAction',
         'cancel' => 'Banner:Admin:Banner@gridAction'
     )); ?>
-
 </form>
