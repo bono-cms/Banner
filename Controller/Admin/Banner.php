@@ -112,7 +112,7 @@ final class Banner extends AbstractController
         $banner = $this->getModuleService('bannerManager')->fetchById($id);
 
         if ($banner !== false) {
-            return $this->createForm($banner, 'Edit the banner');
+            return $this->createForm($banner, $this->translator->translate('Edit the banner "%s"', $banner->getName()));
         } else {
             return false;
         }
