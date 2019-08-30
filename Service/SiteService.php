@@ -13,12 +13,12 @@ namespace Banner\Service;
 
 use Banner\Storage\CategoryMapperInterface;
 
-final class SiteService implements SiteServiceInterface
+final class SiteService
 {
     /**
      * Banner manager service
      * 
-     * @var \Banner\Service\BannerManagerInterface
+     * @var \Banner\Service\BannerManager
      */
     private $bannerManager;
 
@@ -32,11 +32,11 @@ final class SiteService implements SiteServiceInterface
     /**
      * State initialization
      * 
-     * @param \Banner\Service\BannerManagerInterface $bannerManager
+     * @param \Banner\Service\BannerManager $bannerManager
      * @param \Banner\Storage\CategoryMapperInterface $categoryMapper
      * @return void
      */
-    public function __construct(BannerManagerInterface $bannerManager, CategoryMapperInterface $categoryMapper)
+    public function __construct(BannerManager $bannerManager, CategoryMapperInterface $categoryMapper)
     {
         $this->bannerManager = $bannerManager;
         $this->categoryMapper = $categoryMapper;

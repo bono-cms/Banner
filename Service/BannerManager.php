@@ -16,7 +16,7 @@ use Banner\Storage\BannerMapperInterface;
 use Krystal\Http\FileTransfer\DirectoryBagInterface;
 use Krystal\Http\FileTransfer\UrlPathGeneratorInterface;
 
-final class BannerManager extends AbstractManager implements BannerManagerInterface
+final class BannerManager extends AbstractManager
 {
     /**
      * Any compliant banner mapper
