@@ -256,6 +256,11 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
     {
         if (!empty($form['files']['banner'])) {
             $data =& $form['data']['banner'];
+            $file = $form['files']['banner'];
+
+            // Append file name
+            $data['file'] = $file->getUniqueName();
+
             // In order to get last id, a record needs to be inserted first
             $this->bannerMapper->insert($data);
 
