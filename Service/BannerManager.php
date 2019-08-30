@@ -12,9 +12,7 @@
 namespace Banner\Service;
 
 use Cms\Service\AbstractManager;
-use Cms\Service\HistoryManagerInterface;
 use Banner\Storage\BannerMapperInterface;
-use Krystal\Security\Filter;
 use Krystal\Http\FileTransfer\DirectoryBagInterface;
 use Krystal\Http\FileTransfer\UrlPathGeneratorInterface;
 
@@ -41,13 +39,6 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
      */
     private $urlPathGenerator;
 
-    /**
-     * History Manager to track latest activity
-     * 
-     * @var \Cms\Service\HistoryManagerInterface
-     */
-    private $historyManager;
-
     const EXPIRATION_TYPE_NEVER = 0;
     const EXPIRATION_TYPE_CLICKS = 1;
     const EXPIRATION_TYPE_VIEWS = 2;
@@ -58,20 +49,40 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
      * 
      * @param \Banner\Storage\BannerMapperInterface $banerMapper
      * @param \Krystal\Http\FileTransfer\DirectoryBagInterface $dirBag
-     * @param \Cms\Service\HistoryManagerInterface $historyManager
      * @param \Krystal\Http\FileTransfer\UrlPathGeneratorInterface $urlPathGenerator
      * @return void
      */
-    public function __construct(
-        BannerMapperInterface $bannerMapper, 
-        DirectoryBagInterface $dirBag, 
-        UrlPathGeneratorInterface $urlPathGenerator, 
-        HistoryManagerInterface $historyManager
-    ){
+    public function __construct(BannerMapperInterface $bannerMapper, DirectoryBagInterface $dirBag, UrlPathGeneratorInterface $urlPathGenerator)
+    {
         $this->bannerMapper = $bannerMapper;
         $this->dirBag = $dirBag;
         $this->urlPathGenerator = $urlPathGenerator;
-        $this->historyManager = $historyManager;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function toEntity(array $banner)
+    {
+        $entity = new BannerEntity();
+        $entity->setId($banner['id'], BannerEntity::FILTER_INT)
+            ->setName($banner['name'], BannerEntity::FILTER_HTML)
+            ->setLink($banner['link'], BannerEntity::FILTER_HTML)
+            ->setFile($banner['file'], BannerEntity::FILTER_HTML)
+            ->setCategoryId($banner['category_id'], BannerEntity::FILTER_INT)
+            ->setViewCount($banner['views'], BannerEntity::FILTER_INT)
+            ->setMaxViewCount($banner['max_views'], BannerEntity::FILTER_INT)
+            ->setClickCount($banner['clicks'], BannerEntity::FILTER_INT)
+            ->setMaxClickCount($banner['max_clicks'], BannerEntity::FILTER_INT)
+            ->setDatetime($banner['datetime'])
+            ->setMaxDatetime($banner['max_datetime'])
+            ->setExpirationType($banner['expiration_type'], BannerEntity::FILTER_INT)
+            ->setExpirationTypeText($this->getExpirationTypes($entity->getExpirationType()))
+            ->setUrlPath($this->urlPathGenerator->getPath($entity->getId(), $entity->getFile()))
+            ->setTargetUrl(sprintf('/module/banner/target/?%s', http_build_query(array('id' => $entity->getId(), 'url' => $entity->getLink()))))
+            ->setExpired(!$this->isNonExpired($banner));
+
+        return $entity;
     }
 
     /**
@@ -181,18 +192,6 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
     }
 
     /**
-     * Tracks activity
-     * 
-     * @param string $message
-     * @param string $placeholder
-     * @return boolean
-     */
-    private function track($message, $placeholder)
-    {
-        return $this->historyManager->write('Banner', $message, $placeholder);
-    }
-
-    /**
      * Returns prepared paginator's instance
      * 
      * @return \Krystal\Paginate\Paginator
@@ -210,32 +209,6 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
     public function getLastId()
     {
         return $this->bannerMapper->getLastId();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function toEntity(array $banner)
-    {
-        $entity = new BannerEntity();
-        $entity->setId($banner['id'], BannerEntity::FILTER_INT)
-            ->setName($banner['name'], BannerEntity::FILTER_HTML)
-            ->setLink($banner['link'], BannerEntity::FILTER_HTML)
-            ->setFile($banner['file'], BannerEntity::FILTER_HTML)
-            ->setCategoryId($banner['category_id'], BannerEntity::FILTER_INT)
-            ->setViewCount($banner['views'], BannerEntity::FILTER_INT)
-            ->setMaxViewCount($banner['max_views'], BannerEntity::FILTER_INT)
-            ->setClickCount($banner['clicks'], BannerEntity::FILTER_INT)
-            ->setMaxClickCount($banner['max_clicks'], BannerEntity::FILTER_INT)
-            ->setDatetime($banner['datetime'])
-            ->setMaxDatetime($banner['max_datetime'])
-            ->setExpirationType($banner['expiration_type'], BannerEntity::FILTER_INT)
-            ->setExpirationTypeText($this->getExpirationTypes($entity->getExpirationType()))
-            ->setUrlPath($this->urlPathGenerator->getPath($entity->getId(), $entity->getFile()))
-            ->setTargetUrl(sprintf('/module/banner/target/?%s', http_build_query(array('id' => $entity->getId(), 'url' => $entity->getLink()))))
-            ->setExpired(!$this->isNonExpired($banner));
-
-        return $entity;
     }
 
     /**
@@ -283,19 +256,14 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
     {
         if (!empty($form['files']['banner'])) {
             $data =& $form['data']['banner'];
-
             // In order to get last id, a record needs to be inserted first
             $this->bannerMapper->insert($data);
 
             // $this->getLastId() works now
-            $this->dirBag->upload($this->getLastId(), $form['files']['banner']);
+            $this->dirBag->upload($this->getLastId(), $form['files']);
 
-            // Trace this action
-            $this->track('Banner "%s" has been uploaded', $data['name']);
             return true;
-
         } else {
-
             // No file
             return false;
         }
@@ -318,26 +286,13 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
             $this->dirBag->remove($data['id'], $data['file']);
 
             // And finally upload a new one
-            $this->dirBag->upload($data['id'], $file);
+            $this->dirBag->upload($data['id'], $input['files']);
 
             // Save new name now
             $data['file'] = $file->getUniqueName();
         }
 
-        // Trace this move
-        $this->track('Banner %s has been updated', $data['name']);
         return $this->bannerMapper->update($data);
-    }
-
-    /**
-     * Deletes a banner by its associated id
-     * 
-     * @param string $id Banner id
-     * @return boolean
-     */
-    private function delete($id)
-    {
-        return $this->dirBag->remove($id) && $this->bannerMapper->deleteById($id);
     }
 
     /**
@@ -348,15 +303,7 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
      */
     public function deleteById($id)
     {
-        $name = Filter::escape($this->bannerMapper->fetchNameById($id));
-
-        if ($this->delete($id)) {
-            $this->track('Banner "%s" has been removed', $name);
-            return true;
-
-        } else {
-            return false;
-        }
+        return $this->dirBag->remove($id) && $this->bannerMapper->deleteById($id);
     }
 
     /**
@@ -368,12 +315,11 @@ final class BannerManager extends AbstractManager implements BannerManagerInterf
     public function deleteByIds(array $ids)
     {
         foreach ($ids as $id) {
-            if (!$this->delete($id)) {
+            if (!$this->deleteById($id)) {
                 return false;
             }
         }
 
-        $this->track('Batch removal of %s banner', count($ids));
         return true;
     }
 }

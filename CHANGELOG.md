@@ -4,6 +4,7 @@ CHANGELOG
 1.2
 ---
 
+ * Moved history tracker of out main service into the main controller
  * Added `getExpired()` method
  * Added preview for banners (images and flash)
  * Added `getDatetime()` getter on banner entities

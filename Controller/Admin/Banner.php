@@ -126,6 +126,7 @@ final class Banner extends AbstractController
      */
     public function deleteAction($id)
     {
+        $historyService = $this->getService('Cms', 'historyManager');
         $service = $this->getModuleService('bannerManager');
 
         // Batch removal
@@ -135,14 +136,22 @@ final class Banner extends AbstractController
             $service->deleteByIds($ids);
             $this->flashBag->set('success', 'Selected elements have been removed successfully');
 
+            // Track in the history
+            $historyService->write('Banner', 'Batch removal of %s banner', count($ids));
+
         } else {
             $this->flashBag->set('warning', 'You should select at least one element to remove');
         }
 
         // Single removal
         if (!empty($id)) {
+            $banner = $this->getModuleService('bannerManager')->fetchById($id);
+
             $service->deleteById($id);
             $this->flashBag->set('success', 'Selected element has been removed successfully');
+
+            // Track in the history
+            $historyService->write('Banner', 'Banner "%s" has been removed', $banner->getName());
         }
 
         return '1';
@@ -167,26 +176,34 @@ final class Banner extends AbstractController
             ),
             'file' => array(
                 'source' => $this->request->getFiles(),
-                'definition' => array(
+                'definition' => $this->request->hasFiles('banner') ? array(
                     'banner' => new Pattern\File(array(
                         'required' => !$input['id']
                     ))
-                )
+                ) : array()
             )
         ));
 
         if ($formValidator->isValid()) {
+            $historyService = $this->getService('Cms', 'historyManager');
             $service = $this->getModuleService('bannerManager');
 
             if (!empty($input['id'])) {
                 if ($service->update($this->request->getAll())) {
                     $this->flashBag->set('success', 'The element has been updated successfully');
+                    // Save in the history
+                    $historyService->write('Banner', 'Banner %s has been updated', $input['name']);
+
                     return '1';
                 }
 
             } else {
                 if ($service->add($this->request->getAll())) {
                     $this->flashBag->set('success', 'The element has been created successfully');
+
+                    // Save in the history
+                    $historyService->write('Banner', 'Banner "%s" has been uploaded', $input['name']);
+
                     return $service->getLastId();
                 }
             }

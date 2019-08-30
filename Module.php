@@ -32,15 +32,13 @@ final class Module extends AbstractCmsModule
         $bannerMapper = $this->getMapper('/Banner/Storage/MySQL/BannerMapper');
         $categoryMapper = $this->getMapper('/Banner/Storage/MySQL/CategoryMapper');
 
-        $bannerManager = new BannerManager($bannerMapper, $dirBag, $pathGenerator, $this->getHistoryManager());
+        $bannerManager = new BannerManager($bannerMapper, $dirBag, $pathGenerator);
         $categoryManager = new CategoryManager($categoryMapper);
-
-        $siteService = new SiteService($bannerManager, $categoryMapper);
 
         return array(
             'bannerManager' => $bannerManager,
             'categoryManager' => $categoryManager,
-            'siteService' => $siteService
+            'siteService' => new SiteService($bannerManager, $categoryMapper)
         );
     }
 }
