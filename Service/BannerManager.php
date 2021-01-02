@@ -168,7 +168,7 @@ final class BannerManager extends AbstractManager
 
         return $types;
     }
-    
+
     /**
      * Increments view count by banner ID
      * 
