@@ -15,7 +15,7 @@ Basic example:
 
     <?php
     
-    $entity= $entity->getRandom();
+    $entity = $entity->getRandom();
     
     ?>
     
