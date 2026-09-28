@@ -34,10 +34,11 @@ final class Target extends AbstractController
             $bannerManager->incrementClickCount($id);
 
             // Redirect to banner's URL
-            $this->response->redirect($url);
+            return $this->response->redirect($url);
 
         } else {
             // Not enough params
+            return false;
         }
     }
 }
