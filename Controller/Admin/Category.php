@@ -11,8 +11,8 @@
 
 namespace Banner\Controller\Admin;
 
+use Krystal\Validation\Validator;
 use Krystal\Stdlib\VirtualEntity;
-use Krystal\Validate\Pattern;
 use Cms\Controller\Admin\AbstractController;
 
 final class Category extends AbstractController
@@ -74,7 +74,10 @@ final class Category extends AbstractController
         $service->deleteById($id);
 
         $this->flashBag->set('success', 'Selected element has been removed successfully');
-        return '1';
+
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 
     /**
@@ -84,35 +87,38 @@ final class Category extends AbstractController
      */
     public function saveAction()
     {
-        $input = $this->request->getPost('category');
+        $validator = new Validator($this->request->getPost());
+        $validator->field('category.name', 'Name')
+                  ->required()
+                  ->addRule('minlength', null, ['min' => 2]);
 
-        $formValidator = $this->createValidator(array(
-            'input' => array(
-                'source' => $input,
-                'definition' => array(
-                    'name' => new Pattern\Name()
-                )
-            )
-        ));
-
-        if ($formValidator->isValid()) {
+        if ($validator->isPassed()) {
             $service = $this->getModuleService('categoryManager');
+            $input = $this->request->getPost('category');
 
             if (!empty($input['id'])) {
                 if ($service->update($input)) {
                     $this->flashBag->set('success', 'The element has been updated successfully');
-                    return '1';
+
+                    return $this->json([
+                        'refresh' => true
+                    ]);
                 }
 
             } else {
                 if ($service->add($input)) {
                     $this->flashBag->set('success', 'The element has been created successfully');
-                    return $service->getLastId();
+
+                    return $this->json([
+                        'redirect' => $this->createUrl('Banner:Admin:Category@editAction', [$service->getLastId()]),
+                    ]);
                 }
             }
 
         } else {
-            return $formValidator->getErrors();
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 }

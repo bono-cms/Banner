@@ -11,8 +11,8 @@
 
 namespace Banner\Controller\Admin;
 
+use Krystal\Validation\Validator;
 use Krystal\Stdlib\VirtualEntity;
-use Krystal\Validate\Pattern;
 use Cms\Controller\Admin\AbstractController;
 
 final class Banner extends AbstractController
@@ -37,12 +37,12 @@ final class Banner extends AbstractController
         $paginator = $bannerManager->getPaginator();
         $paginator->setUrl($url);
 
-        return $this->view->render('browser', array(
+        return $this->view->render('browser', [
             'banners' => $bannerManager->fetchAllByPage($page, $this->getSharedPerPageCount(), $categoryId),
             'paginator' => $paginator,
             'categories' => $this->getModuleService('categoryManager')->fetchAll(),
             'categoryId' => $categoryId
-        ));
+        ]);
     }
 
     /**
@@ -61,11 +61,11 @@ final class Banner extends AbstractController
         $this->view->getBreadcrumbBag()->addOne('Banner', 'Banner:Admin:Banner@gridAction')
                                        ->addOne($title);
 
-        return $this->view->render('banner.form', array(
+        return $this->view->render('banner.form', [
             'banner' => $banner,
             'expirationTypes' => $this->getModuleService('bannerManager')->getExpirationTypes(),
             'categories' => $this->getModuleService('categoryManager')->fetchList()
-        ));
+        ]);
     }
 
     /**
@@ -77,7 +77,7 @@ final class Banner extends AbstractController
      */
     public function categoryAction($categoryId, $page = 1)
     {
-        return $this->createGrid($this->createUrl('Banner:Admin:Banner@categoryAction', array($categoryId), 1), $page, $categoryId);
+        return $this->createGrid($this->createUrl('Banner:Admin:Banner@categoryAction', [$categoryId], 1), $page, $categoryId);
     }
 
     /**
@@ -88,7 +88,7 @@ final class Banner extends AbstractController
      */
     public function gridAction($page = 1)
     {
-        return $this->createGrid($this->createUrl('Banner:Admin:Banner@gridAction', array(), 1), $page, null);
+        return $this->createGrid($this->createUrl('Banner:Admin:Banner@gridAction', [], 1), $page, null);
     }
 
     /**
@@ -154,7 +154,9 @@ final class Banner extends AbstractController
             $historyService->write('Banner', 'Banner "%s" has been removed', $banner->getName());
         }
 
-        return '1';
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 
     /**
@@ -166,25 +168,23 @@ final class Banner extends AbstractController
     {
         $input = $this->request->getPost('banner');
 
-        $formValidator = $this->createValidator(array(
-            'input' => array(
-                'source' => $input,
-                'definition' => array(
-                    'name' => new Pattern\Name(),
-                    'link' => new Pattern\Url(),
-                )
-            ),
-            'file' => array(
-                'source' => $this->request->getFiles(),
-                'definition' => $this->request->hasFiles('banner') ? array(
-                    'banner' => new Pattern\File(array(
-                        'required' => !$input['id']
-                    ))
-                ) : array()
-            )
-        ));
+        $validator = new Validator(
+            $this->request->getPost(),
+            $this->request->getFiles()
+        );
 
-        if ($formValidator->isValid()) {
+        $validator->field('banner.name', 'Name')
+                  ->required()
+                  ->addRule('minlength', null, ['min' => 2]);
+
+        $validator->field('banner.link', 'Link')
+                  ->required()
+                  ->addRule('urlpattern');
+
+        $validator->file('banner')
+                  ->required(null, empty($input['id']));
+
+        if ($validator->isPassed()) {
             $historyService = $this->getService('Cms', 'historyManager');
             $service = $this->getModuleService('bannerManager');
 
@@ -194,7 +194,9 @@ final class Banner extends AbstractController
                     // Save in the history
                     $historyService->write('Banner', 'Banner %s has been updated', $input['name']);
 
-                    return '1';
+                    return $this->json([
+                        'refresh' => true
+                    ]);
                 }
 
             } else {
@@ -204,12 +206,16 @@ final class Banner extends AbstractController
                     // Save in the history
                     $historyService->write('Banner', 'Banner "%s" has been uploaded', $input['name']);
 
-                    return $service->getLastId();
+                    return $this->json([
+                        'redirect' => $this->createUrl('Banner:Admin:Banner@editAction', [$service->getLastId()]),
+                    ]);
                 }
             }
 
         } else {
-            return $formValidator->getErrors();
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 }
