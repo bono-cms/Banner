@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -17,27 +15,27 @@ use Krystal\Stdlib\VirtualEntity;
 final class BannerEntity extends VirtualEntity
 {
     /**
-     * Determines whether current entity is image
+     * Determines whether the current entity is an image.
      * 
      * @return boolean
      */
     public function isImage()
     {
-        return FileManager::hasExtension($this->getFile(), array('jpg', 'jped', 'gif', 'png', 'bmp'));
+        return FileManager::hasExtension($this->getFile(), ['jpg', 'jpeg', 'gif', 'png', 'bmp']);
     }
 
     /**
-     * Determines whether current entity is flash file
+     * Determines whether the current entity is a flash file.
      * 
      * @return boolean
      */
     public function isFlash()
     {
-        return FileManager::hasExtension($this->getFile(), array('swf'));
+        return FileManager::hasExtension($this->getFile(), ['swf']);
     }
 
     /**
-     * Whether current file is not image nor flash
+     * Determines whether the current file is neither an image nor flash.
      * 
      * @return boolean
      */

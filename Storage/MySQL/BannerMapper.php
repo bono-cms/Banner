@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -60,9 +58,9 @@ final class BannerMapper extends AbstractMapper implements BannerMapperInterface
     }
 
     /**
-     * Fetches banner name by its associated id
+     * Fetches banner name by its associated ID
      * 
-     * @param string $id Banner's id
+     * @param string $id Banner ID
      * @return string
      */
     public function fetchNameById($id)
@@ -104,7 +102,7 @@ final class BannerMapper extends AbstractMapper implements BannerMapperInterface
      * @param array $validIds Optional collection of valid IDs to restrict output
      * @return array
      */
-    public function fetchAllByPage($page, $itemsPerPage, $categoryId, array $validIds = array())
+    public function fetchAllByPage($page, $itemsPerPage, $categoryId, array $validIds = [])
     {
         // Initial select
         $db = $this->db->select('*')
@@ -138,7 +136,7 @@ final class BannerMapper extends AbstractMapper implements BannerMapperInterface
      * @param array $validIds Optional collection of valid IDs to restrict output
      * @return array
      */
-    public function fetchRandom($categoryId, array $validIds = array())
+    public function fetchRandom($categoryId, array $validIds = [])
     {
         $db = $this->db->select('*')
                        ->from(self::getTableName())
@@ -160,9 +158,9 @@ final class BannerMapper extends AbstractMapper implements BannerMapperInterface
     }
 
     /**
-     * Fetches banner's data by its associated id
+     * Fetches banner data by its associated ID
      * 
-     * @param string $id Banner id
+     * @param string $id Banner ID
      * @return array
      */
     public function fetchById($id)
@@ -171,9 +169,9 @@ final class BannerMapper extends AbstractMapper implements BannerMapperInterface
     }
 
     /**
-     * Deletes a banner by its associated id
+     * Deletes a banner by its associated ID
      * 
-     * @param string $id Banner's id
+     * @param string $id Banner ID
      * @return boolean
      */
     public function deleteById($id)

@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -23,7 +21,7 @@ final class BannerManager extends AbstractManager
      * 
      * @var \Banner\Storage\BannerMapperInterface
      */
-    private $banerMapper;
+    private $bannerMapper;
 
     /**
      * Directory bag
@@ -47,7 +45,7 @@ final class BannerManager extends AbstractManager
     /**
      * State initialization
      * 
-     * @param \Banner\Storage\BannerMapperInterface $banerMapper
+     * @param \Banner\Storage\BannerMapperInterface $bannerMapper
      * @param \Krystal\Http\FileTransfer\DirectoryBagInterface $dirBag
      * @param \Krystal\Http\FileTransfer\UrlPathGeneratorInterface $urlPathGenerator
      * @return void
@@ -79,7 +77,7 @@ final class BannerManager extends AbstractManager
             ->setExpirationType($banner['expiration_type'], BannerEntity::FILTER_INT)
             ->setExpirationTypeText($this->getExpirationTypes($entity->getExpirationType()))
             ->setUrlPath($this->urlPathGenerator->getPath($entity->getId(), $entity->getFile()))
-            ->setTargetUrl(sprintf('/module/banner/target/?%s', http_build_query(array('id' => $entity->getId(), 'url' => $entity->getLink()))))
+            ->setTargetUrl(sprintf('/module/banner/target/?%s', http_build_query(['id' => $entity->getId(), 'url' => $entity->getLink()])))
             ->setExpired(!$this->isNonExpired($banner));
 
         return $entity;
@@ -88,7 +86,6 @@ final class BannerManager extends AbstractManager
     /**
      * Process and keep only valid banners
      * 
-     * @param array $banners
      * @return array
      */
     private function getActiveIds()
@@ -115,7 +112,7 @@ final class BannerManager extends AbstractManager
 
         static $time = null;
 
-        if ($time == null) {
+        if ($time === null) {
             $time = $this->bannerMapper->getCurrentTime();
         }
 
@@ -136,7 +133,7 @@ final class BannerManager extends AbstractManager
      */
     private function processBanners(array $banners)
     {
-        $output = array();
+        $output = [];
 
         foreach ($banners as $banner) {
             if ($this->isNonExpired($banner)) {
@@ -155,12 +152,12 @@ final class BannerManager extends AbstractManager
      */
     public function getExpirationTypes($filter = null)
     {
-        $types = array(
+        $types = [
             self::EXPIRATION_TYPE_NEVER => 'Never',
             self::EXPIRATION_TYPE_CLICKS => 'By clicks',
             self::EXPIRATION_TYPE_VIEWS => 'By views',
             self::EXPIRATION_TYPE_DATETIME => 'By expiration time'
-        );
+        ];
 
         if ($filter !== null) {
             return $types[$filter];
@@ -202,7 +199,7 @@ final class BannerManager extends AbstractManager
     }
 
     /**
-     * Returns last banner's id
+     * Returns last banner's ID
      * 
      * @return integer
      */
@@ -236,9 +233,9 @@ final class BannerManager extends AbstractManager
     }
 
     /**
-     * Fetches banner's entity by its associated id
+     * Fetches banner's entity by its associated ID
      * 
-     * @param string $id Banner id
+     * @param string $id Banner ID
      * @return boolean|\Krystal\Stdlib\VirtualEntity
      */
     public function fetchById($id)
@@ -249,7 +246,7 @@ final class BannerManager extends AbstractManager
     /**
      * Adds a banner
      * 
-     * @param array $input Raw input data
+     * @param array $form Raw input data
      * @return boolean
      */
     public function add(array $form)
@@ -261,7 +258,7 @@ final class BannerManager extends AbstractManager
             // Append file name
             $data['file'] = $file->getUniqueName();
 
-            // In order to get last id, a record needs to be inserted first
+            // In order to get last ID, a record needs to be inserted first
             $this->bannerMapper->insert($data);
 
             // $this->getLastId() works now
@@ -287,7 +284,7 @@ final class BannerManager extends AbstractManager
         // If we have a new banner
         if (!empty($input['files']['banner'])) {
             $file = $input['files']['banner'];
-            // Then we need to remove a previos one
+            // Then we need to remove a previous one
             $this->dirBag->remove($data['id'], $data['file']);
 
             // And finally upload a new one
@@ -301,9 +298,9 @@ final class BannerManager extends AbstractManager
     }
 
     /**
-     * Deletes a banner by its associated id
+     * Deletes a banner by its associated ID
      * 
-     * @param string $id Banner id
+     * @param string $id Banner ID
      * @return boolean
      */
     public function deleteById($id)
@@ -312,9 +309,9 @@ final class BannerManager extends AbstractManager
     }
 
     /**
-     * Delete banners by their associated ids
+     * Deletes banners by their associated IDs
      * 
-     * @param array $ids An array of banner ids
+     * @param array $ids An array of banner IDs
      * @return boolean
      */
     public function deleteByIds(array $ids)

@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -14,9 +12,9 @@ namespace Banner\Storage;
 interface CategoryMapperInterface
 {
     /**
-     * Fetch all categories
+     * Fetches all categories
      * 
-     * @param boolean $withCount Whether fetch virtual count field as well
+     * @param boolean $withCount Whether to fetch virtual count field as well
      * @return array
      */
     public function fetchAll($withCount);

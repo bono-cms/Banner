@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -56,18 +54,18 @@ final class SiteService
     }
 
     /**
-     * Fetch all banners from available categories in random order
+     * Fetches all banners from available categories in random order
      * 
      * @return array
      */
     public function getAll()
     {
-        $banners = array();
+        $banners = [];
 
         foreach ($this->categoryMapper->fetchAll(false) as $category) {
             $entity = $this->bannerManager->fetchRandom($category['id']);
 
-            // Add only if there's at least one banner in current category
+            // Add only if there is at least one banner in the current category
             if ($entity !== false) {
                 $banners[] = $entity;
 
@@ -80,7 +78,7 @@ final class SiteService
     }
 
     /**
-     * Returns random banner's entity
+     * Returns a random banner entity
      * 
      * @param string $categoryId Optional category ID filter
      * @return \Krystal\Stdlib\VirtualEntity
@@ -95,9 +93,9 @@ final class SiteService
     }
 
     /**
-     * Returns banner's entity by its associated id, or false on failure
+     * Returns a banner entity by its associated ID, or false on failure
      * 
-     * @param string $id Banner id
+     * @param string $id Banner ID
      * @return \Krystal\Stdlib\VirtualEntity|boolean
      */
     public function getById($id)

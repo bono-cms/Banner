@@ -3,15 +3,12 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
 
 namespace Banner\Controller\Admin;
 
-use Krystal\Validation\Validator;
 use Krystal\Stdlib\VirtualEntity;
 use Cms\Controller\Admin\AbstractController;
 
@@ -59,7 +56,7 @@ final class Banner extends AbstractController
 
         // Append a breadcrumb
         $this->view->getBreadcrumbBag()->addOne('Banner', 'Banner:Admin:Banner@gridAction')
-                                       ->addOne($title);
+                                      ->addOne($title);
 
         return $this->view->render('banner.form', [
             'banner' => $banner,
@@ -119,7 +116,7 @@ final class Banner extends AbstractController
     }
 
     /**
-     * Deletes a banner by its associated id
+     * Deletes a banner by its associated ID
      * 
      * @param string $id
      * @return string The response
@@ -168,10 +165,7 @@ final class Banner extends AbstractController
     {
         $input = $this->request->getPost('banner');
 
-        $validator = new Validator(
-            $this->request->getPost(),
-            $this->request->getFiles()
-        );
+        $validator = $this->createValidation();
 
         $validator->field('banner.name', 'Name')
                   ->required()

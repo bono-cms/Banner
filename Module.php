@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -35,10 +33,10 @@ final class Module extends AbstractCmsModule
         $bannerManager = new BannerManager($bannerMapper, $dirBag, $pathGenerator);
         $categoryManager = new CategoryManager($categoryMapper);
 
-        return array(
+        return [
             'bannerManager' => $bannerManager,
             'categoryManager' => $categoryManager,
             'siteService' => new SiteService($bannerManager, $categoryMapper)
-        );
+        ];
     }
 }

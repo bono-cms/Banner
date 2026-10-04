@@ -3,15 +3,12 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
 
 namespace Banner\Controller\Admin;
 
-use Krystal\Validation\Validator;
 use Krystal\Stdlib\VirtualEntity;
 use Cms\Controller\Admin\AbstractController;
 
@@ -30,9 +27,9 @@ final class Category extends AbstractController
         $this->view->getBreadcrumbBag()->addOne('Banner', 'Banner:Admin:Banner@gridAction')
                                        ->addOne($title);
 
-        return $this->view->render('category.form', array(
+        return $this->view->render('category.form', [
             'category' => $category
-        ));
+        ]);
     }
 
     /**
@@ -63,7 +60,7 @@ final class Category extends AbstractController
     }
 
     /**
-     * Deletes a banner by its associated id
+     * Deletes a category by its associated ID
      * 
      * @param string $id
      * @return string The response
@@ -81,13 +78,14 @@ final class Category extends AbstractController
     }
 
     /**
-     * Persists a banner
+     * Persists a category
      * 
      * @return string
      */
     public function saveAction()
     {
-        $validator = new Validator($this->request->getPost());
+        $validator = $this->createValidation();
+        
         $validator->field('category.name', 'Name')
                   ->required()
                   ->addRule('minlength', null, ['min' => 2]);

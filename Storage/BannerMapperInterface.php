@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -37,9 +35,9 @@ interface BannerMapperInterface
     public function incrementClickCount($id);
 
     /**
-     * Fetches banner name by its associated id
+     * Fetches banner name by its associated ID
      * 
-     * @param string $id Banner id
+     * @param string $id Banner ID
      * @return string
      */
     public function fetchNameById($id);
@@ -69,7 +67,7 @@ interface BannerMapperInterface
      * @param array $validIds Optional collection of valid IDs to restrict output
      * @return array
      */
-    public function fetchAllByPage($page, $itemsPerPage, $categoryId, array $validIds = array());
+    public function fetchAllByPage($page, $itemsPerPage, $categoryId, array $validIds = []);
 
     /**
      * Fetches random banner
@@ -78,20 +76,20 @@ interface BannerMapperInterface
      * @param array $validIds Optional collection of valid IDs to restrict output
      * @return array
      */
-    public function fetchRandom($categoryId, array $validIds = array());
+    public function fetchRandom($categoryId, array $validIds = []);
 
     /**
-     * Fetches banner's data by its associated id
+     * Fetches banner data by its associated ID
      * 
-     * @param string $id Banner id
+     * @param string $id Banner ID
      * @return array
      */
     public function fetchById($id);
 
     /**
-     * Deletes a banner by its associated id
+     * Deletes a banner by its associated ID
      * 
-     * @param string $id Banner id
+     * @param string $id Banner ID
      * @return boolean
      */
     public function deleteById($id);

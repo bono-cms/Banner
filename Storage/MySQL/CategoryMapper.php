@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -26,27 +24,27 @@ final class CategoryMapper extends AbstractMapper implements CategoryMapperInter
     }
 
     /**
-     * Fetch all categories
+     * Fetches all categories
      * 
-     * @param boolean $withCount Whether fetch virtual count field as well
+     * @param boolean $withCount Whether to fetch virtual count field as well
      * @return array
      */
     public function fetchAll($withCount)
     {
         // Columns to be selected
-        $columns = array(
+        $columns = [
             self::column('id'),
             self::column('name')
-        );
+        ];
 
-        if ($withCount == true) {
+        if ($withCount === true) {
             $db = $this->db->select($columns)
-                        ->count(BannerMapper::column('id'), 'banners_count')
-                        ->from(BannerMapper::getTableName())
-                        ->rightJoin(self::getTableName(), array(
-                            self::column('id') => BannerMapper::getRawColumn('category_id')
-                        ))
-                        ->groupBy(self::column('id'));
+                           ->count(BannerMapper::column('id'), 'banners_count')
+                           ->from(BannerMapper::getTableName())
+                           ->rightJoin(self::getTableName(), [
+                               self::column('id') => BannerMapper::getRawColumn('category_id')
+                           ])
+                           ->groupBy(self::column('id'));
         } else {
             $db = $this->db->select($columns)
                            ->from(self::getTableName());

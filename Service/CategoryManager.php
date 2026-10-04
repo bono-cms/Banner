@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -19,7 +17,7 @@ use Krystal\Stdlib\ArrayUtils;
 final class CategoryManager extends AbstractManager
 {
     /**
-     * Any compliant banner mapper
+     * Any compliant category mapper
      * 
      * @var \Banner\Storage\CategoryMapperInterface
      */
@@ -93,7 +91,7 @@ final class CategoryManager extends AbstractManager
     }
 
     /**
-     * Fetch category entity by its ID
+     * Fetches category entity by its ID
      * 
      * @param string $id Category ID
      * @return \Krystal\Stdlib\VirtualEntity|boolean
@@ -104,7 +102,7 @@ final class CategoryManager extends AbstractManager
     }
 
     /**
-     * Fetch categories list
+     * Fetches categories list
      * 
      * @return array
      */
@@ -114,7 +112,7 @@ final class CategoryManager extends AbstractManager
     }
 
     /**
-     * Fetch all categories
+     * Fetches all categories
      * 
      * @return array
      */
